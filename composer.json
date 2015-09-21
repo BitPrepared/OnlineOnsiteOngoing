@@ -1,0 +1,29 @@
+{
+  "require": {
+    "longman/telegram-bot": "^0.17.1",
+    "abraham/twitteroauth" : "0.6.0",
+    "videlalvaro/php-amqplib": "2.5.2",
+    "tedivm/fetch" : "0.6.*",
+    "php-imap/php-imap" : "~2.0",
+    "cosenary/instagram" : "2.3",
+    "php": ">=5.5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.6.*",
+    "gabordemooij/redbean": "4.2.1",
+    "whatthejeff/nyancat-phpunit-resultprinter": "v1.2.0",
+    "guzzlehttp/guzzle" : "6.1.0",
+    "mikey179/vfsStream": "1.5.*",
+    "johnkary/phpunit-speedtrap": "1.0.*@dev",
+    "phploc/phploc": "~2.1",
+    "sebastian/phpcpd": "~2.0",
+    "pdepend/pdepend": "~2.0",
+    "phpmd/phpmd": "~2.0",
+    "squizlabs/php_codesniffer": "2.3.*",
+    "codeclimate/php-test-reporter": "dev-master",
+    "satooshi/php-coveralls": "0.6.1",
+    "fabpot/php-cs-fixer": "1.8.*",
+    "sensiolabs/security-checker": "~2.0",
+    "clue/graph-composer": "dev-master"
+  }
+}
