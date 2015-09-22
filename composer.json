@@ -4,9 +4,11 @@
     "abraham/twitteroauth" : "0.6.0",
     "videlalvaro/php-amqplib": "2.5.2",
     "tedivm/fetch" : "0.6.*",
-    "php-imap/php-imap" : "~2.0",
+    "php-imap/php-imap" : "dev-master",
     "cosenary/instagram" : "2.3",
-    "php": ">=5.5"
+    "jmikola/geojson": "~1.0",
+    "php": ">=5.5",
+    "ext-iconv" : "*"
   },
   "require-dev": {
     "phpunit/phpunit": "4.6.*",

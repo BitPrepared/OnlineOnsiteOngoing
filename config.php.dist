@@ -1,0 +1,14 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Stefano "Yoghi" Tamagnini
+ * Date: 21/09/15 - 21:41
+ *
+ */
+
+$twitter_consumer_key = '';
+$twitter_consumer_secret = '';
+$twitter_access_token = '';
+$twitter_access_secret = '';
+
+?>

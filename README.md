@@ -26,6 +26,10 @@ php extension:
  
 ### PhpBrew install command 
 
-phpbrew -d install 5.5.24 +mbstring +bcmath +imap +ctype +pdo +mysql +pcntl +posix +readline +json +intl +cgi +sqlite +openssl +zip +gd +ipc +bz2 +mcrypt +cli +dom +filter +pcre +inifile +fileinfo +mhash +zlib -- --with-curl=/usr/local/
+phpbrew -d install 5.5.24 +mbstring +bcmath +imap +ctype +pdo +mysql +pcntl +iconv +posix +readline +json +intl +cgi +sqlite +openssl +zip +gd +ipc +bz2 +mcrypt +cli +dom +filter +pcre +inifile +fileinfo +mhash +debug +zlib -- --with-curl=/usr/local/
 phpbrew use php-5.5.24
 phpbrew extension install imap -- --with-imap=/usr/local/opt/imap-uw/ --with-imap-ssl --with-kerberos
+
+in caso manchi iconv: 
+
+phpbrew extension install iconv
