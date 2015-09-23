@@ -22,6 +22,7 @@ function setup($config)
                 $table->increments('id');
                 $table->string('author');
                 $table->string('source');
+                $table->string('sourceId');
                 $table->text('text');
                 $table->text('textHtml');
                 $table->string('hashtags');

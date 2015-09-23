@@ -39,7 +39,7 @@ class Annotation extends Model {
     public $timestamps = true;
 
     // Assegnamento massivo
-    protected $fillable = ['author', 'source', 'text','textHtml','hashtags'];
+    protected $fillable = ['author', 'source', 'sourceId', 'text','textHtml','hashtags'];
 
     public function setHashtagsAttribute(array $value){
         return $this->attributes['hashtags'] = join(',', $value);
@@ -58,7 +58,7 @@ class Annotation extends Model {
     }
 
     // ???
-    protected $hidden   = ['source','author','created_at','updated_at','deleted_at'];
+    protected $hidden   = ['source','sourceId','author','created_at','updated_at','deleted_at'];
 
     /**
      * Get the comments for the blog post.

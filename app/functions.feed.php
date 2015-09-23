@@ -11,8 +11,10 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use \Indaba\Dashboard\Annotation as Annotation;
 use Carbon\Carbon;
 
-function feed(Capsule $db,$limit = 0){
-    $annotations = Annotation::where('id', '>', $limit)->orderBy('id', 'desc')->take(20)->get();
+function feed($connection = 'default', $limit = 0){
+
+    $annotations = Annotation::on($connection)->where('id', '>', $limit)->orderBy('id', 'desc')->take(20)->get();
+
     Carbon::setToStringFormat(DateTime::ISO8601);
     $result = [];
     foreach ($annotations as $annotation) {
@@ -20,3 +22,5 @@ function feed(Capsule $db,$limit = 0){
     }
     return json_encode($result);
 }
+
+

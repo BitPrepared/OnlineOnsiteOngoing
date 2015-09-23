@@ -49,14 +49,14 @@ $app->configureMode('development', function() use ($app,$config) {
     });
     $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
         include '../app/functions.feed.php';
-        echo feed($app->db,$startFrom);
+        echo feed('testing',$startFrom);
     });
 });
 
 $app->configureMode('production', function() use ($app,$config) {
     $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
         include '../app/functions.feed.php';
-        echo feed($app->db,$startFrom);
+        echo feed('default',$startFrom);
     });
 });
 
