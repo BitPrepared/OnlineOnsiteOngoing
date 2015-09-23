@@ -46,9 +46,9 @@ $connection->setTimeouts(10, 15);
 
 if ($filesystem->has('last.tweet')) {
     $lastId = $filesystem->read('last.tweet');
-    $content_search = $connection->get("search/tweets", array("q" => "#bologna", "result_type" => "recent", "count" => "10", "since_id" => "$lastId"));
+    $content_search = $connection->get("search/tweets", array("q" => $config['twitter_hashtag_search'], "result_type" => "recent", "count" => "10", "since_id" => "$lastId"));
 } else {
-    $content_search = $connection->get("search/tweets", array("q" => "#bologna", "result_type" => "recent", "count" => "10"));
+    $content_search = $connection->get("search/tweets", array("q" => $config['twitter_hashtag_search'], "result_type" => "recent", "count" => "10"));
 }
 
 foreach ($content_search->statuses as $elem_search) {
@@ -107,8 +107,6 @@ foreach ($content_search->statuses as $elem_search) {
                     $filename = $str[4];
                 }
 
-                // fixme: dove le salvo??
-                //file_put_contents($id_tweet . $imageCount . $filename, $dataImg);
                 $filesystem->write($id_tweet . '/' . $filename, $dataImg);
 
                 $attachments = new Attachment(array(

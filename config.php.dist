@@ -12,6 +12,7 @@ return [
     'twitter_consumer_secret 	' => '',
     'twitter_access_token 		' => '',
     'twitter_access_secret 		' => '',
+    'twitter_hashtag_search' => '',
     'imap_server 				' => '',
     'imap_port 					' => '',
     'imap_protocol 				' => '',
