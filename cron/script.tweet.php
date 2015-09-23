@@ -9,15 +9,16 @@
 require '../vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use Illuminate\Database\Capsule\Manager as Capsule;
 use Indaba\Dashboard\Annotation as Annotation;
-use \Indaba\Dashboard\Attachment as Attachment;
+use Indaba\Dashboard\Attachment as Attachment;
 use Indaba\Dashboard\Source as Source;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\ListWith;
-use Illuminate\Database\Capsule\Manager as Capsule;
 
-function parseTweet($ret) {
+function parseTweet($ret)
+{
     $ret = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t< ]*)#", "\\1<a href=\"\\2\" target=\"_blank\">\\2</a>", $ret);
     $ret = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r< ]*)#", "\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>", $ret);
     $ret = preg_replace("/@(\w+)/", "<a href=\"http://www.twitter.com/\\1\" target=\"_blank\">@\\1</a>", $ret); // Usernames
@@ -76,49 +77,54 @@ foreach ($content_search->statuses as $elem_search) {
         $hashtags[] = $ht->text;
     }
 
-    $annotation = new Annotation(array(
-        'author' => $nick,
-        'source' => Source::TWITTER,
-        'sourceId' => $id_tweet,
-        'text' => $testo_tweet,
-        'textHtml' => parseTweet($testo_tweet),
-        'hashtags' => $hashtags
-    ));
-    $annotation->setConnection($connection_name);
-    $annotation->save();
+    $ann = Annotation::on($connection_name)->where('sourceId', $id_tweet)->get();
+    if ($ann->count() == 0) {
 
-    $imageCount = 0;
-    if (isset ($elem_search->entities->media)) {
-        foreach ($elem_search->entities->media as $media) {
-            $imageCount++;
-            $resources[] = $media->media_url;
-            $dataImg = file_get_contents($media->media_url);
-            $filename = basename($media->media_url); //"http://pbs.twimg.com/media/CPbPvS6UkAE7dYw.jpg",
+        $annotation = new Annotation(array(
+            'author' => $nick,
+            'source' => Source::TWITTER,
+            'sourceId' => $id_tweet,
+            'text' => $testo_tweet,
+            'textHtml' => parseTweet($testo_tweet),
+            'hashtags' => $hashtags
+        ));
+        $annotation->setConnection($connection_name);
+        $annotation->save();
 
-            if ('' == trim($filename)) {
-                $url = $media->expanded_url;
-                $parts = parse_url($url); // /Nonsprecare/status/645894353769111552/photo/1
-                echo $parts['path'];
-                $str = explode('/', $parts['path']);
-                $filename = $str[4];
+        $imageCount = 0;
+        if (isset ($elem_search->entities->media)) {
+            foreach ($elem_search->entities->media as $media) {
+                $imageCount++;
+                $resources[] = $media->media_url;
+                $dataImg = file_get_contents($media->media_url);
+                $filename = basename($media->media_url); //"http://pbs.twimg.com/media/CPbPvS6UkAE7dYw.jpg",
+
+                if ('' == trim($filename)) {
+                    $url = $media->expanded_url;
+                    $parts = parse_url($url); // /Nonsprecare/status/645894353769111552/photo/1
+                    echo $parts['path'];
+                    $str = explode('/', $parts['path']);
+                    $filename = $str[4];
+                }
+
+                // fixme: dove le salvo??
+                //file_put_contents($id_tweet . $imageCount . $filename, $dataImg);
+                $filesystem->write($id_tweet . '/' . $filename, $dataImg);
+
+                $attachments = new Attachment(array(
+                    'annotation_id' => $annotation->id,
+                    'source' => Source::TWITTER,
+                    'fileName' => $filename,
+                    'filePath' => $id_tweet . '/' . $filename
+                ));
+                $attachments->setConnection($connection_name);
+                $attachments->save();
             }
-
-            // fixme: dove le salvo??
-            //file_put_contents($id_tweet . $imageCount . $filename, $dataImg);
-            $filesystem->write($id_tweet . '/' . $filename, $dataImg);
-
-            $attachments = new Attachment(array(
-                'annotation_id' => $annotation->id,
-                'source' => Source::TWITTER,
-                'fileName' => $filename,
-                'filePath' => $id_tweet . '/' . $filename
-            ));
-            $attachments->setConnection($connection_name);
-            $attachments->save();
         }
+
     }
 
 }
-
+$filesystem->delete('last.tweet');
 $filesystem->write('last.tweet', $lastId);
 

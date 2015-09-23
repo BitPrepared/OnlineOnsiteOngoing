@@ -48,6 +48,7 @@ $app->configureMode('development', function() use ($app,$config) {
         $app->render('info.php', array());
     });
     $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
+        $app->response->headers->set('Content-Type', 'application/json');
         include '../app/functions.feed.php';
         echo feed('testing',$startFrom);
     });
@@ -55,6 +56,7 @@ $app->configureMode('development', function() use ($app,$config) {
 
 $app->configureMode('production', function() use ($app,$config) {
     $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
+        $app->response->headers->set('Content-Type', 'application/json');
         include '../app/functions.feed.php';
         echo feed('default',$startFrom);
     });
