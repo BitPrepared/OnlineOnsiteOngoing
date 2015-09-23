@@ -7,7 +7,16 @@
  */
 
 require '../vendor/autoload.php';
-require '../config.php';
+
+use \Indaba\Dashboard\Annotation as Annotation;
+use \Indaba\Dashboard\Attachment as Attachment;
+use \Indaba\Dashboard\Source as Source;
+use League\Flysystem\Filesystem;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Plugin\ListWith;
+use Carbon\Carbon;
+
+$config = require('../config.php');
 
 $app = new \Slim\Slim(array(
     'mode' => 'development',
@@ -17,7 +26,10 @@ $app = new \Slim\Slim(array(
     'templates.path' => '../templates'
 ));
 
-// After instantiation
+$app->config('databases', $config['databases']);
+
+$app->add(new BitPrepared\Slim\Middleware\EloquentMiddleware);
+
 $log = $app->getLog();
 
 $view = $app->view();
@@ -26,8 +38,26 @@ $app->get('/', function () use ($app)  {
     $app->render('home/index.php', array());
 });
 
-$app->get('/info', function () use ($app)  {
-    $app->render('info.php', array());
+$app->get('/setup', function() use ($app,$config) {
+    include '../app/functions.setup.php';
+    setup($config);
+});
+
+$app->configureMode('development', function() use ($app,$config) {
+    $app->get('/info', function () use ($app)  {
+        $app->render('info.php', array());
+    });
+    $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
+        include '../app/functions.feed.php';
+        echo feed($app->db,$startFrom);
+    });
+});
+
+$app->configureMode('production', function() use ($app,$config) {
+    $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
+        include '../app/functions.feed.php';
+        echo feed($app->db,$startFrom);
+    });
 });
 
 $app->notFound(function () use ($app) {

@@ -6,22 +6,39 @@
  *
  */
 
-$twitter_consumer_key = '';
-$twitter_consumer_secret = '';
-$twitter_access_token = '';
-$twitter_access_secret = '';
-
-$imap_server = '';
-$imap_port = '';
-$imap_protocol = '';
-$imap_mail = '';
-$imap_password = '';
-
-$settings_database = array(
-    'driver' => 'sqlite',
-    'database' => ':memory:'
-);
-
-$uploads_dir=__DIR__.'/uploads';
+return [
+    'uploads_dir' => __DIR__ . '/uploads',
+    'twitter_consumer_key 		' => '',
+    'twitter_consumer_secret 	' => '',
+    'twitter_access_token 		' => '',
+    'twitter_access_secret 		' => '',
+    'imap_server 				' => '',
+    'imap_port 					' => '',
+    'imap_protocol 				' => '',
+    'imap_mail 					' => '',
+    'imap_password 				' => '',
+    'databases' => [
+        'default' => [
+            'driver' => '',
+            'host' => '',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'charset' => '',
+            'collation' => '',
+            'prefix' => ''
+        ],
+        'testing' => [
+            'driver' => '',
+            'host' => '',
+            'database' => '',
+            'username' => '',
+            'password' => '',
+            'charset' => '',
+            'collation' => '',
+            'prefix' => ''
+        ]
+    ]
+];
 
 ?>
