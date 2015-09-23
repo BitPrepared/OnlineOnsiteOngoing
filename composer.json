@@ -8,7 +8,11 @@
     "cosenary/instagram" : "2.3",
     "jmikola/geojson": "~1.0",
     "php": ">=5.5",
-    "ext-iconv" : "*"
+    "ext-iconv" : "*",
+    "illuminate/database": "~5.1",
+    "slim/slim": "~2.6",
+    "nesbot/carbon": "~1.20",
+    "league/flysystem": "~1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "4.6.*",
@@ -27,5 +31,11 @@
     "fabpot/php-cs-fixer": "1.8.*",
     "sensiolabs/security-checker": "~2.0",
     "clue/graph-composer": "dev-master"
-  }
+  },
+  "autoload": {
+        "psr-4": { 
+            "BitPrepared\\": "src/BitPrepared/",
+            "Indaba\\": "src/Indaba/"
+        }
+    }
 }
