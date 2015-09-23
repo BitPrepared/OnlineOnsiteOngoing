@@ -123,6 +123,8 @@ foreach ($content_search->statuses as $elem_search) {
     }
 
 }
-$filesystem->delete('last.tweet');
+if ($filesystem->has('last.tweet')) {
+    $filesystem->delete('last.tweet');
+}
 $filesystem->write('last.tweet', $lastId);
 
