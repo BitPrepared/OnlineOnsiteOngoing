@@ -30,8 +30,12 @@ $log = $app->getLog();
 
 $view = $app->view();
 
-$app->get('/', function () use ($app)  {
-    $app->render('home/maintenance.php', array());
+$app->get('/', function () use ($app,$config)  {
+    if ( $config['maintenance'] ) {
+        $app->render('home/maintenance.php', array());
+    } else {
+        $app->render('home/index.php', array());
+    }
 });
 
 $app->get('/setup', function() use ($app,$config) {

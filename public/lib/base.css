@@ -111,10 +111,11 @@ body {
 }
 
 #content {
-	background: #fff;
+	background: #888 url(../bg.jpg) no-repeat top left;
+	background-repeat: no-repeat;
 	min-height: 100%;
 	z-index: 20;
-	
+	-webkit-backface-visibility: hidden;
 	-webkit-perspective: 1000;
 	padding: 50px 20px;
 	text-align: left;

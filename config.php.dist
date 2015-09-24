@@ -8,6 +8,7 @@
 
 return [
     'enviroment' => 'development',
+    'maintenance' => false,
     'uploads_dir' => __DIR__ . '/uploads',
     'twitter_consumer_key 		' => '',
     'twitter_consumer_secret 	' => '',

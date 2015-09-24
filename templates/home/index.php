@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="config.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="lib/base.css">
@@ -32,12 +33,28 @@
             src: url('font/Humanist 521 Bold Condensed BT.ttf');
         }
 
+        #progress-load-contents{
+            position: absolute;
+            top: 80px;
+
+            left:10%;
+            right:10%;
+
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px;
+        }
+
         body {
             font-family : Humanist;
         }
 
         li > p {
             font-size:35pt;
+        }
+
+        li {
+            margin-bottom: 50px;
         }
 
         .hashtag-container {
@@ -57,16 +74,22 @@
 
     <script type="text/javascript">
 
-        var TEXT_PREVIEW_LENGTH = 200;
-        var MS_RELOAD_DELAY = 10000;
+        if ( typeof TEXT_PREVIEW_LENGTH === 'undefined' ) {
+            alert("Attenzione: crea il file config.js a partire "+
+            "dal config.js.sample prima di poter utilizzare " +
+            "ooo-visualizer");
+        }
+
         var MAX_ID = 0;
+
         var MIN_ID = 0;
 
         function create_new_update( uobj ) {
 
             var new_el = $('<li>');
             new_el.addClass("list-group-item");
-            new_el.attr("display", "none");
+
+            new_el.hide();
 
             if(MAX_ID < uobj.id){
                 MAX_ID = uobj.id;
@@ -97,7 +120,7 @@
 
                     quote.append($("<button>", {
                         type: "button",
-                        "class" : "btn btn-info btn-xs",
+                        "class" : "btn btn-link btn-xs",
                         "data-toggle": "collapse",
                         "data-target": "#more-" + uobj.id,
                         "text" : "Continua a leggere"
@@ -131,7 +154,7 @@
             for(h = 0; h < uobj.hashtags.length; h++){
                 new_ht = $('<span>');
                 new_ht.addClass("label");
-                new_ht.addClass("label-info");
+                new_ht.addClass("label-primary");
                 new_ht.text(uobj.hashtags[h]);
 
                 hashtagsContainer.append(new_ht);
@@ -158,17 +181,19 @@
             if(where == 'pre'){
                 /* Carica i vecchi messaggi dell'infinite scrolling */
 
-                var res = 'data.json';
+                //var res = 'data.json';
 
-                // todo inserire vera risorsa tipo
-                // var res = "feed/pre/" + last_id;
+                // la risorsa è da configurare nel file config.js
+                var res = API_RES_PRE + last_id;
 
             } else {
                 /* Carica i nuovi messaggi in cima alla pagina */
 
-                var res = 'data.json';
+                //var res = 'data.json';
+                // la risorsa è da configurare nel file config.js
+                var res = API_RES_POST + last_id;
                 if(last_id != 0){
-                    // var res = "feed/" + last_id;
+                    // var res = res + last_id;
                 }
             }
 
@@ -196,8 +221,11 @@
                             $('#verifies').prepend(el);
                         }
 
-                        el.fadeIn("slow");
-
+                        $("#stub-info-element").remove();
+                        el.fadeIn({
+                            queue : true,
+                            duration : "slow"
+                        });
                     }
                 }
             });
@@ -227,12 +255,12 @@
             // load_new_updates(0);
             $(window).scroll(function() {
                 if($(window).scrollTop() + $(window).height() == $(document).height()) {
-                    load_new_updates(0, pre);
+                    load_new_updates(0, 'pre');
                 }
             });
             setInterval(function(){
                 $("#progress-load-contents").fadeIn();
-                load_new_updates(MAX_ID);
+                load_new_updates(MAX_ID, "post");
                 $("#progress-load-contents").fadeOut("slow");
             }, MS_RELOAD_DELAY)
         });
@@ -268,39 +296,12 @@
             </div>
         </div>
         <ul id="verifies" class="list-group">
-
-            <li class="list-group-item update">
+            <li class="list-group-item update" id="stub-info-element">
                 <blockquote>
-                    <p>Descrizione elemento...</p>
-                    <footer>15:18 18/09/2015 - From Twitter</footer>
+                    <h2>Benvenuto sull'aggregatore delle verifiche!</h2>
+                    <p>Le verifiche dei vari capi che hanno partecipato all'Indaba appariranno in questa sezione in automatico.</p>
+                    <footer>BitPrepared</footer>
                 </blockquote>
-                <p class="hashtag-container"><span class="label label-info">#hashtag1</span>
-                    <span class="label label-info">#hashtag2</span>
-                    <span class="label label-info">#hashtag3</span>
-                    <span class="label label-info">#hashtag4</span>
-                    <span class="label label-info">#hashtag5</span></p>
-                <img src="sample.jpg" class="img-thumbnail" alt="Sample image" width="304" height="236">
-            </li>
-
-            <li class="list-group-item update">
-                <blockquote>
-                    <p>A me questo Indaba e' piaciuto tanto perche'...</p>
-                    <div id="more" class="collapse">
-                        <p>
-                            ...lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </p>
-                    </div>
-                    <button type="button" class="btn btn-info btn-xs" data-toggle="collapse" data-target="#more">Continua a leggere</button>
-                    <footer>15:18 18/09/2015 - From Twitter</footer>
-                </blockquote>
-                <p class="hashtag-container"><span class="label label-info">#hashtag1</span>
-                    <span class="label label-info">#hashtag2</span>
-                    <span class="label label-info">#hashtag3</span>
-                    <span class="label label-info">#hashtag4</span>
-                    <span class="label label-info">#hashtag5</span></p>
-                <img src="sample.jpg" class="img-thumbnail img-responsive" alt="Sample image" width="300">
             </li>
         </ul>
     </div>
