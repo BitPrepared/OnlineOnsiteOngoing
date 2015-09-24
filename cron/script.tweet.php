@@ -74,25 +74,6 @@ foreach ($content_search->statuses as $elem_search) {
         $point = \GeoJson\GeoJson::jsonUnserialize($elem_search->coordinates);
     }
 
-    /**
-     * FIXME: parser evaluations
-     */
-    $sessione = '';
-    $evento = 0;
-    $punteggio = 0;
-    /**
-     * fine FIXME: parser evaluations
-     */
-
-    $evaluation = new Evaluation(array(
-        'annotation_id' => $annotation->id,
-        'sessione' => $sessione,
-        'evento' => $evento,
-        'punteggio' => $punteggio
-    ));
-    $evaluation->setConnection($connection_name);
-    $evaluation->save();
-
     // Entites https://dev.twitter.com/overview/api/entities
 
     $hashtags = [];
@@ -114,6 +95,25 @@ foreach ($content_search->statuses as $elem_search) {
         ));
         $annotation->setConnection($connection_name);
         $annotation->save();
+
+        /**
+         * FIXME: parser evaluations
+         */
+        $sessione = '';
+        $evento = 0;
+        $punteggio = 0;
+        /**
+         * fine FIXME: parser evaluations
+         */
+
+        $evaluation = new Evaluation(array(
+            'annotation_id' => $annotation->id,
+            'sessione' => $sessione,
+            'evento' => $evento,
+            'punteggio' => $punteggio
+        ));
+        $evaluation->setConnection($connection_name);
+        $evaluation->save();
 
         $imageCount = 0;
         if (isset ($elem_search->entities->media)) {
