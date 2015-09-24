@@ -53,7 +53,6 @@ $app->configureMode('development', function() use ($app,$config) {
         include '../app/functions.feed.php';
         echo feedhistory('testing',$startFrom);
     });
-
     $app->get('/resources/:id(/:maxWidth)', function($id,$maxWidth = 0) use ($app,$config) {
         include '../app/functions.image.php';
         $fp = getResources($config['uploads_dir'],$id,$maxWidth,'testing');
@@ -63,7 +62,6 @@ $app->configureMode('development', function() use ($app,$config) {
         $app->response->headers->set('Content-Type', $fp['mime']);
         $app->response->setBody($fp['data']);
     });
-
 });
 
 $app->configureMode('production', function() use ($app,$config) {
@@ -75,7 +73,16 @@ $app->configureMode('production', function() use ($app,$config) {
     $app->get('/history/:startFrom', function($startFrom) use ($app,$config) {
         $app->response->headers->set('Content-Type', 'application/json');
         include '../app/functions.feed.php';
-        echo feedhistory('testing',$startFrom);
+        echo feedhistory('default',$startFrom);
+    });
+    $app->get('/resources/:id(/:maxWidth)', function($id,$maxWidth = 0) use ($app,$config) {
+        include '../app/functions.image.php';
+        $fp = getResources($config['uploads_dir'],$id,$maxWidth,'default');
+        if (!$fp) {
+            $app->notFound();
+        }
+        $app->response->headers->set('Content-Type', $fp['mime']);
+        $app->response->setBody($fp['data']);
     });
 });
 
