@@ -1,0 +1,16 @@
+Index: Eloquent/Model.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Eloquent/Model.php	(revision 3cf10bfde2f3a1b26dbb38200131c2c6998e3b63)
++++ Eloquent/Model.php	(revision )
+@@ -908,6 +908,8 @@
+ 
+         $localKey = $localKey ?: $this->getKeyName();
+ 
++        $instance->setConnection($this->getConnectionName());
++
+         return new HasMany($instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey);
+     }
+ 

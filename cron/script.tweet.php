@@ -109,15 +109,6 @@ foreach ($content_search->statuses as $elem_search) {
             $evaluation->save();
         }
 
-        $evaluation = new Evaluation(array(
-            'annotation_id' => $annotation->id,
-            'sessione' => $sessione,
-            'evento' => $evento,
-            'punteggio' => $punteggio
-        ));
-        $evaluation->setConnection($connection_name);
-        $evaluation->save();
-
         $imageCount = 0;
         if (isset ($elem_search->entities->media)) {
             foreach ($elem_search->entities->media as $media) {

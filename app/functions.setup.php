@@ -50,6 +50,9 @@ function setup($config)
                 $table->string('fileName');
                 $table->string('filePath')->unique();
 
+                // http://laravel.com/docs/5.0/schema#foreign-keys
+                $table->foreign('annotation_id')->references('id')->on('annotations');
+
                 $table->softDeletes();
                 $table->timestamps();
             });
@@ -68,6 +71,8 @@ function setup($config)
                 $table->string('sessione');
                 $table->integer('evento');
                 $table->integer('punteggio');
+
+                $table->foreign('annotation_id')->references('id')->on('annotations');
 
                 $table->softDeletes();
                 $table->timestamps();
