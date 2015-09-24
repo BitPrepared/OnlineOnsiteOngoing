@@ -8,14 +8,6 @@
 
 require '../vendor/autoload.php';
 
-use \Indaba\Dashboard\Annotation as Annotation;
-use \Indaba\Dashboard\Attachment as Attachment;
-use \Indaba\Dashboard\Source as Source;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Plugin\ListWith;
-use Carbon\Carbon;
-
 $config = require('../config.php');
 
 $app = new \Slim\Slim(array(
@@ -28,7 +20,11 @@ $app = new \Slim\Slim(array(
 
 $app->config('databases', $config['databases']);
 
-$app->add(new BitPrepared\Slim\Middleware\EloquentMiddleware);
+$app->add(new \BitPrepared\Slim\Middleware\EloquentMiddleware);
+$corsOptions = array(
+    "origin" => "*"
+);
+$app->add(new \CorsSlim\CorsSlim($corsOptions));
 
 $log = $app->getLog();
 

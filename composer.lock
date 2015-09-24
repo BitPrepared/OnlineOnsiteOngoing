@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7bcb7aed2753ae63b418a0c989cc4e48",
-    "content-hash": "a0a662d7008918e15f96fa285e4735d5",
+    "hash": "695ec3c6c88ec47fa6962112d61b14fc",
+    "content-hash": "b4a3130d9c1a8d763489e5d6ec3b4764",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -715,6 +715,50 @@
                 "time"
             ],
             "time": "2015-06-25 04:19:39"
+        },
+        {
+            "name": "palanik/corsslim",
+            "version": "v0.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/palanik/CorsSlim.git",
+                "reference": "e315799762352028e24735f14bebdf63f9135cc8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/palanik/CorsSlim/zipball/e315799762352028e24735f14bebdf63f9135cc8",
+                "reference": "e315799762352028e24735f14bebdf63f9135cc8",
+                "shasum": ""
+            },
+            "require": {
+                "slim/slim": ">=2.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CorsSlim\\": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "palanik"
+                }
+            ],
+            "description": "Cross-origin resource sharing (CORS) middleware for PHP Slim.",
+            "homepage": "https://github.com/palanik/CorsSlim",
+            "keywords": [
+                "cors",
+                "corsslim",
+                "cross-origin",
+                "preflight",
+                "slim",
+                "slimphp"
+            ],
+            "time": "2015-04-29 01:21:37"
         },
         {
             "name": "php-imap/php-imap",
