@@ -10,7 +10,6 @@ require '../vendor/autoload.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Indaba\Dashboard\Annotation as Annotation;
-use Indaba\Dashboard\Attachment as Attachment;
 use Indaba\Dashboard\Evaluation as Evaluation;
 use Indaba\Dashboard\Source as Source;
 use League\Flysystem\Adapter\Local;
