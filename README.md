@@ -33,3 +33,5 @@ phpbrew extension install imap -- --with-imap=/usr/local/opt/imap-uw/ --with-ima
 in caso manchi iconv: 
 
 phpbrew extension install iconv
+
+phpbrew extension install gd

@@ -54,9 +54,9 @@ $app->configureMode('development', function() use ($app,$config) {
         echo feedhistory('testing',$startFrom);
     });
 
-    $app->get('/resources/:id', function($id) use ($app,$config) {
+    $app->get('/resources/:id(/:maxWidth)', function($id,$maxWidth = 0) use ($app,$config) {
         include '../app/functions.image.php';
-        $fp = getResources($config['uploads_dir'],$id,'testing');
+        $fp = getResources($config['uploads_dir'],$id,$maxWidth,'testing');
         if (!$fp) {
             $app->notFound();
         }
