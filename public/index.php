@@ -48,6 +48,22 @@ $app->configureMode('development', function() use ($app,$config) {
         include '../app/functions.feed.php';
         echo feed('testing',$startFrom);
     });
+    $app->get('/history/:startFrom', function($startFrom) use ($app,$config) {
+        $app->response->headers->set('Content-Type', 'application/json');
+        include '../app/functions.feed.php';
+        echo feedhistory('testing',$startFrom);
+    });
+
+    $app->get('/resources/:id', function($id) use ($app,$config) {
+        include '../app/functions.image.php';
+        $fp = getResources($config['uploads_dir'],$id,'testing');
+        if (!$fp) {
+            $app->notFound();
+        }
+        $app->response->headers->set('Content-Type', $fp['mime']);
+        $app->response->setBody($fp['data']);
+    });
+
 });
 
 $app->configureMode('production', function() use ($app,$config) {
@@ -55,6 +71,11 @@ $app->configureMode('production', function() use ($app,$config) {
         $app->response->headers->set('Content-Type', 'application/json');
         include '../app/functions.feed.php';
         echo feed('default',$startFrom);
+    });
+    $app->get('/history/:startFrom', function($startFrom) use ($app,$config) {
+        $app->response->headers->set('Content-Type', 'application/json');
+        include '../app/functions.feed.php';
+        echo feedhistory('testing',$startFrom);
     });
 });
 
