@@ -31,7 +31,7 @@ $log = $app->getLog();
 $view = $app->view();
 
 $app->get('/', function () use ($app)  {
-    $app->render('home/index.php', array());
+    $app->render('home/maintenance.php', array());
 });
 
 $app->get('/setup', function() use ($app,$config) {
