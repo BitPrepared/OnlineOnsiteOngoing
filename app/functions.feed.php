@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 function feed($connection = 'default', $limit = 0){
 
-    $annotations = Annotation::on($connection)->where('id', '>', $limit)->orderBy('id', 'desc')->take(20)->get();
+    $annotations = Annotation::on($connection)->with('Attachments')->where('id', '>', $limit)->orderBy('id', 'desc')->take(20)->get();
 
     Carbon::setToStringFormat(DateTime::ISO8601);
     $result = [];
@@ -23,7 +23,7 @@ function feed($connection = 'default', $limit = 0){
 
 function feedhistory($connection = 'default', $limit){
 
-    $annotations = Annotation::on($connection)->where('id', '<', $limit)->orderBy('id', 'desc')->take(20)->get();
+    $annotations = Annotation::on($connection)->with('Attachments')->where('id', '<', $limit)->orderBy('id', 'desc')->take(20)->get();
 
     Carbon::setToStringFormat(DateTime::ISO8601);
     $result = [];
