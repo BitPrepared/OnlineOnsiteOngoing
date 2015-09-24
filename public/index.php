@@ -62,6 +62,10 @@ $app->configureMode('development', function() use ($app,$config) {
         $app->response->headers->set('Content-Type', $fp['mime']);
         $app->response->setBody($fp['data']);
     });
+    $app->get('/annotation/new', function() use ($app,$config) {
+        include '../app/functions.web.php';
+        $app->render('annotation/form.php', array());
+    });
 });
 
 $app->configureMode('production', function() use ($app,$config) {

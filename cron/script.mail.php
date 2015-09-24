@@ -13,6 +13,7 @@ use Indaba\Dashboard\Annotation as Annotation;
 use Indaba\Dashboard\Attachment as Attachment;
 use Indaba\Dashboard\Evaluation as Evaluation;
 use Indaba\Dashboard\Source as Source;
+use Indaba\Dashboard\Evaluation\Parser as Parser;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\ListWith;
@@ -58,7 +59,6 @@ if (!$mailsIds) {
     foreach ($mailsIds as $mailId) {
 
         $mail = $mailbox->getMail($mailId);
-//        var_dump($mail);
 
         $id = $mail->id;
         $mail_id = isset($mail->messageId) ? $mail->messageId : $id;
@@ -101,55 +101,17 @@ if (!$mailsIds) {
             $annotation->setConnection($connection_name);
             $annotation->save();
 
-
-            /**
-             * FIXME: da estrapolare
-            */
-            $sessione = '';
-            $evento = 0;
-            $punteggio = 0;
-
-            if ( strlen($titolo) == 6 ) {
-                $firstChar = mb_substr($titolo, 0, 1, 'utf-8');
-                $firstCharCode = ord($firstChar);
-                if ( $firstCharCode > 64 && $firstCharCode < 91 ){
-                    $sessione = $firstChar;
-                    $code = mb_substr($titolo, 1, 2, 'utf-8');
-                    if ( is_numeric($code) ) {
-                        $evento = $code;
-                        $evaluation = mb_substr($titolo,3, 3, 'utf-8');
-                        $strlen = strlen( $evaluation );
-                        for( $i = 0; $i <= $strlen; $i++ ) {
-                            $char = substr( $evaluation, $i, 1 );
-                            if ( $char == '+' ) {
-                                $punteggio++;
-                            }
-                            if ( $char == '-' ) {
-                                $punteggio--;
-                            }
-                        }
-                    } else {
-                        echo "analyze : $titolo -> invalid code : $code \n";
-                    }
-                } else {
-                    echo "analyze : $titolo -> invalid firstChar : $firstChar ($firstCharCode) \n";
-                }
-            } else {
-                echo "analyze : $titolo -> lunghezza invalida (".strlen($titolo).") \n";
+            $result = Parser::parse($titolo);
+            if ($result != false){
+                $evaluation = new Evaluation(array(
+                    'annotation_id' => $annotation->id,
+                    'sessione' => $result->sessione,
+                    'evento' => $result->evento,
+                    'punteggio' => $result->punteggio
+                ));
+                $evaluation->setConnection($connection_name);
+                $evaluation->save();
             }
-
-            /**
-             * fine FIXME: da estrapolare
-             */
-
-            $evaluation = new Evaluation(array(
-                'annotation_id' => $annotation->id,
-                'sessione' => $sessione,
-                'evento' => $evento,
-                'punteggio' => $punteggio
-            ));
-            $evaluation->setConnection($connection_name);
-            $evaluation->save();
 
             $attachments = $mail->getAttachments();
             foreach ($attachments as $attachment) {

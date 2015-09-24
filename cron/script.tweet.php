@@ -14,6 +14,7 @@ use Indaba\Dashboard\Annotation as Annotation;
 use Indaba\Dashboard\Attachment as Attachment;
 use Indaba\Dashboard\Evaluation as Evaluation;
 use Indaba\Dashboard\Source as Source;
+use Indaba\Dashboard\Evaluation\Parser as Parser;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\ListWith;
@@ -96,15 +97,17 @@ foreach ($content_search->statuses as $elem_search) {
         $annotation->setConnection($connection_name);
         $annotation->save();
 
-        /**
-         * FIXME: parser evaluations
-         */
-        $sessione = '';
-        $evento = 0;
-        $punteggio = 0;
-        /**
-         * fine FIXME: parser evaluations
-         */
+        $result = Parser::parse($testo_tweet);
+        if ($result != false){
+            $evaluation = new Evaluation(array(
+                'annotation_id' => $annotation->id,
+                'sessione' => $result->sessione,
+                'evento' => $result->evento,
+                'punteggio' => $result->punteggio
+            ));
+            $evaluation->setConnection($connection_name);
+            $evaluation->save();
+        }
 
         $evaluation = new Evaluation(array(
             'annotation_id' => $annotation->id,

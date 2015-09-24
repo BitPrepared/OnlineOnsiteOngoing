@@ -12,6 +12,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Indaba\Dashboard\Annotation as Annotation;
 use Indaba\Dashboard\Evaluation as Evaluation;
 use Indaba\Dashboard\Source as Source;
+use Indaba\Dashboard\Evaluation\Parser as Parser;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\ListWith;
@@ -77,24 +78,17 @@ foreach($res as $sms){
         $annotation->setConnection($connection_name);
         $annotation->save();
 
-        /**
-         * FIXME: parser evaluations
-         */
-        $sessione = '';
-        $evento = 0;
-        $punteggio = 0;
-        /**
-         * fine FIXME: parser evaluations
-         */
-
-        $evaluation = new Evaluation(array(
-            'annotation_id' => $annotation->id,
-            'sessione' => $sessione,
-            'evento' => $evento,
-            'punteggio' => $punteggio
-        ));
-        $evaluation->setConnection($connection_name);
-        $evaluation->save();
+        $result = Parser::parse($plainText);
+        if ($result != false){
+            $evaluation = new Evaluation(array(
+                'annotation_id' => $annotation->id,
+                'sessione' => $result->sessione,
+                'evento' => $result->evento,
+                'punteggio' => $result->punteggio
+            ));
+            $evaluation->setConnection($connection_name);
+            $evaluation->save();
+        }
 
     }
 
