@@ -7,6 +7,7 @@
  */
 
 return [
+    'enviroment' => 'development',
     'uploads_dir' => __DIR__ . '/uploads',
     'twitter_consumer_key 		' => '',
     'twitter_consumer_secret 	' => '',

@@ -28,7 +28,11 @@ function parseTweet($ret)
 
 $config = require('../config.php');
 
-$connection_name = 'testing';
+if ( $config['enviroment'] == 'development' ){
+    $connection_name = 'testing';
+} else {
+    $connection_name = 'default';
+}
 
 $adapter = new Local($config['uploads_dir'] . '/twitter/');
 $filesystem = new Filesystem($adapter);
@@ -68,6 +72,25 @@ foreach ($content_search->statuses as $elem_search) {
     if (isset($elem_search->coordinates)) {
         $point = \GeoJson\GeoJson::jsonUnserialize($elem_search->coordinates);
     }
+
+    /**
+     * FIXME: parser evaluations
+     */
+    $sessione = '';
+    $evento = 0;
+    $punteggio = 0;
+    /**
+     * fine FIXME: parser evaluations
+     */
+
+    $evaluation = new Evaluation(array(
+        'annotation_id' => $annotation->id,
+        'sessione' => $sessione,
+        'evento' => $evento,
+        'punteggio' => $punteggio
+    ));
+    $evaluation->setConnection($connection_name);
+    $evaluation->save();
 
     // Entites https://dev.twitter.com/overview/api/entities
 

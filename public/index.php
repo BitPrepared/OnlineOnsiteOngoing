@@ -19,7 +19,7 @@ use Carbon\Carbon;
 $config = require('../config.php');
 
 $app = new \Slim\Slim(array(
-    'mode' => 'development',
+    'mode' => $config['enviroment'],
     'debug' => true,
     'log.level' => \Slim\Log::DEBUG,
     'log.enabled' => true,
