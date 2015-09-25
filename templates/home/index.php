@@ -4,6 +4,7 @@
     <title>Verifica Indaba 2015</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="config.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -58,7 +59,7 @@
                 quote.append($("<footer>", {
                     text :
                     cd.toLocaleTimeString() + " " + cd.toLocaleDateString()
-                    + " - From " + uobj.sourceLabel
+                    + " - Fonte " + uobj.sourceLabel
                 }));
                 new_el.append(quote);
             }
@@ -151,23 +152,27 @@
 
                     var v = data;
                     var i;
-                    for( i = 0; i < v.length; i++){
 
-                        var el = create_new_update(v[i]);
-
-                        /* Inserisci l'update */
-                        if(where == 'pre'){
-                            $('#verifies').append(el);
-                        } else {
-                            $('#verifies').prepend(el);
+                    if (where == 'pre'){
+                        for( i = 0; i < v.length; i++){
+                            var el = create_new_update(v[i]);
+                            if (v[i].id <= MIN_ID )
+                                $('#verifies').append(el);
                         }
+                    } else {
+                        for( i = v.length -1; i >= 0 ; i--){
+                            var el = create_new_update(v[i]);
 
-                        $("#stub-info-element").remove();
-                        el.fadeIn({
-                            queue : true,
-                            duration : "slow"
-                        });
+                            if (v[i].id >= MAX_ID)
+                                $('#verifies').prepend(el);
+                        }
                     }
+
+                    $("#stub-info-element").remove();
+                    el.fadeIn({
+                        queue : true,
+                        duration : "slow"
+                    });
                 }
             });
         }
@@ -232,7 +237,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal-howto">Come pubblicare</a></li>
-                    <li><a href="form.htm" >Pubblica opinione</a></li>
+                    <li><a href="annotation/new" >Pubblica opinione</a></li>
                 </ul>
             </div>
         </div>

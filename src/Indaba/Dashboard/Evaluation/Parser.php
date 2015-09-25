@@ -12,7 +12,7 @@ class Parser {
         $result->punteggio = 0;
         $result->lastCodeChar = 0;
 
-        $text = preg_replace('/[[:^print:]]/', '', $text);
+//        $text = preg_replace('/[[:^print:]]/', '', $text);
 
         $text = trim($text);
 
