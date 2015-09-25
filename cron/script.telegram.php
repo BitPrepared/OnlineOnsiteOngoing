@@ -8,7 +8,6 @@
 
 require '../vendor/autoload.php';
 
-use Abraham\TwitterOAuth\TwitterOAuth;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Indaba\Dashboard\Annotation as Annotation;
 use Indaba\Dashboard\Attachment as Attachment;
@@ -19,15 +18,6 @@ use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Plugin\ListWith;
 
-function parseTweet($ret)
-{
-    $ret = preg_replace("#(^|[\n ])([\w]+?://[\w]+[^ \"\n\r\t< ]*)#", "\\1<a href=\"\\2\" target=\"_blank\">\\2</a>", $ret);
-    $ret = preg_replace("#(^|[\n ])((www|ftp)\.[^ \"\t\n\r< ]*)#", "\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>", $ret);
-    $ret = preg_replace("/@(\w+)/", "<a href=\"http://www.twitter.com/\\1\" target=\"_blank\">@\\1</a>", $ret); // Usernames
-    $ret = preg_replace("/#(\w+)/", "<a href=\"http://search.twitter.com/search?q=\\1\" target=\"_blank\">#\\1</a>", $ret); // Hash Tags
-    return $ret;
-}
-
 $config = require('../config.php');
 
 if ( $config['enviroment'] == 'development' ){
@@ -36,7 +26,7 @@ if ( $config['enviroment'] == 'development' ){
     $connection_name = 'default';
 }
 
-$adapter = new Local($config['uploads_dir'] . '/twitter/');
+$adapter = new Local($config['uploads_dir'] . '/telegram/');
 $filesystem = new Filesystem($adapter);
 $filesystem->addPlugin(new ListWith);
 
@@ -47,102 +37,276 @@ foreach ($config['databases'] as $name => $database) {
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
-$connection = new TwitterOAuth($config['twitter_consumer_key'], $config['twitter_consumer_secret'], $config['twitter_access_token'], $config['twitter_access_secret']);
-$connection->setTimeouts(10, 15);
+$TOKEN = $config['telegram_token'];
 
-if ($filesystem->has('last.tweet')) {
-    $lastId = $filesystem->read('last.tweet');
-    $content_search = $connection->get("search/tweets", array("q" => $config['twitter_hashtag_search'], "result_type" => "recent", "count" => "10", "since_id" => "$lastId"));
-} else {
-    $content_search = $connection->get("search/tweets", array("q" => $config['twitter_hashtag_search'], "result_type" => "recent", "count" => "10"));
+$reqN = 0;
+if ($filesystem->has('last.telegram')) {
+    $reqN = $filesystem->read('last.telegram');
 }
+$url = 'https://api.telegram.org/bot'.$TOKEN.'/';
+$function='getUpdates';
+$data = array('offset' => $reqN);
+$options = array(
+    'http' => array(
+        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+        'method'  => 'POST',
+        'content' => http_build_query($data),
+    ),
+);
+$context  = stream_context_create($options);
+$result = file_get_contents($url.$function, false, $context);
+$obj_telegram = json_decode($result);
 
-foreach ($content_search->statuses as $elem_search) {
-    $id_tweet = $elem_search->id_str;
-    $lastId = $id_tweet;
+foreach ( $obj_telegram->result as $message_telegram) {
 
-    // https://dev.twitter.com/overview/api/users
-    $nome = $elem_search->user->name;
-    $nick = $elem_search->user->screen_name;
-    $profile_image_url = $elem_search->user->profile_image_url;
-    $testo_tweet = $elem_search->text;
+    $message = $message_telegram->message;
 
-    if (isset($elem_search->retweeted_status)) {
-        $testo_tweet = 'RT: ' . $elem_search->retweeted_status->text;
-    }
+    $idMessaggio = $message->message_id;
+    $nomeMittente = $message->from->first_name;
+    $cognomeMittente = $message->from->last_name;
+    $userName = $message->from->username;
+    $author = $cognomeMittente.' '.$nomeMittente. ' @'.$userName;
+    $reqN = $idMessaggio;
 
-    if (isset($elem_search->coordinates)) {
-        $point = \GeoJson\GeoJson::jsonUnserialize($elem_search->coordinates);
-    }
-
-    // Entites https://dev.twitter.com/overview/api/entities
-
-    $hashtags = [];
-    foreach ($elem_search->entities->hashtags as $ht) {
-        // lo # non c'e' se serve va messo
-        $hashtags[] = $ht->text;
-    }
-
-    $ann = Annotation::on($connection_name)->where('sourceId', $id_tweet)->get();
+    $ann = Annotation::on($connection_name)->where('sourceId', $idMessaggio)->get();
     if ($ann->count() == 0) {
 
-        $annotation = new Annotation(array(
-            'author' => $nick,
-            'source' => Source::TWITTER,
-            'sourceId' => $id_tweet,
-            'text' => $testo_tweet,
-            'textHtml' => parseTweet($testo_tweet),
-            'hashtags' => $hashtags
-        ));
-        $annotation->setConnection($connection_name);
-        $annotation->save();
+        //TESTO
+        if (isset($message->text)) {
+            $testo = $message->text;
 
-        $result = Parser::parse($testo_tweet);
-        if ($result != false){
-            $evaluation = new Evaluation(array(
-                'annotation_id' => $annotation->id,
-                'sessione' => $result->sessione,
-                'evento' => $result->evento,
-                'punteggio' => $result->punteggio
+            $annotation = new Annotation(array(
+                'author' => $author,
+                'source' => Source::TELEGRAM,
+                'sourceId' => $idMessaggio,
+                'text' => $testo,
+                'textHtml' => $testo,
+                'hashtags' => array()
             ));
-            $evaluation->setConnection($connection_name);
-            $evaluation->save();
+            $annotation->setConnection($connection_name);
+            $annotation->save();
+
+            if ( strpos($testo,'@IndabaBot') == 0 ){
+                $testoDaParsare = str_replace('@IndabaBot','',$testo);
+                $result = Parser::parse($testoDaParsare);
+            } else {
+                $result = Parser::parse($testo);
+            }
+
+            if ($result != false) {
+                $evaluation = new Evaluation(array(
+                    'annotation_id' => $annotation->id,
+                    'sessione' => $result->sessione,
+                    'evento' => $result->evento,
+                    'punteggio' => $result->punteggio
+                ));
+                $evaluation->setConnection($connection_name);
+                $evaluation->save();
+            }
+
         }
 
-        $imageCount = 0;
-        if (isset ($elem_search->entities->media)) {
-            foreach ($elem_search->entities->media as $media) {
-                $imageCount++;
-                $resources[] = $media->media_url;
-                $dataImg = file_get_contents($media->media_url);
-                $filename = basename($media->media_url); //"http://pbs.twimg.com/media/CPbPvS6UkAE7dYw.jpg",
+        //PHOTO
+        if (isset($message->photo)) {
+            $testo = 'Photo';
 
-                if ('' == trim($filename)) {
-                    $url = $media->expanded_url;
-                    $parts = parse_url($url); // /Nonsprecare/status/645894353769111552/photo/1
-                    echo $parts['path'];
-                    $str = explode('/', $parts['path']);
-                    $filename = $str[4];
-                }
+            $annotation = new Annotation(array(
+                'author' => $author,
+                'source' => Source::TELEGRAM,
+                'sourceId' => $idMessaggio,
+                'text' => $testo,
+                'textHtml' => $testo,
+                'hashtags' => array()
+            ));
+            $annotation->setConnection($connection_name);
+            $annotation->save();
 
-                $filesystem->write($id_tweet . '/' . $filename, $dataImg);
+            foreach($id = $message->photo as $photo) {
+
+                $function='getFile';
+                $data = array( 'file_id' => $photo->file_id);
+                $options = array(
+                    'http' => array(
+                        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                        'method'  => 'POST',
+                        'content' => http_build_query($data),
+                    ),
+                );
+                $context  = stream_context_create($options);
+                $result = file_get_contents($url.$function, false, $context);
+                $fileInfos = json_decode($result);
+                $file_path = $fileInfos->result->file_path;
+                $url_download = 'https://api.telegram.org/file/bot'.$TOKEN.'/'.$file_path;
+                $dataImg = file_get_contents($url_download);
+
+                $filename = basename($file_path);
+
+                $filesystem->write($idMessaggio . '/' . $filename, $dataImg);
 
                 $attachments = new Attachment(array(
                     'annotation_id' => $annotation->id,
-                    'source' => Source::TWITTER,
+                    'source' => Source::TELEGRAM,
                     'fileName' => $filename,
-                    'filePath' => $id_tweet . '/' . $filename
+                    'filePath' => $idMessaggio . '/' . $filename
                 ));
                 $attachments->setConnection($connection_name);
                 $attachments->save();
-            }
+
+            } //photos
+
         }
+
+        //VIDEO
+        if (isset($message->video)) {
+            $testo = 'Video';
+
+            $annotation = new Annotation(array(
+                'author' => $author,
+                'source' => Source::TELEGRAM,
+                'sourceId' => $idMessaggio,
+                'text' => $testo,
+                'textHtml' => $testo,
+                'hashtags' => array()
+            ));
+            $annotation->setConnection($connection_name);
+            $annotation->save();
+
+            foreach($id = $message->video as $video) {
+
+                $function='getFile';
+                $data = array( 'file_id' => $video->file_id);
+                $options = array(
+                    'http' => array(
+                        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                        'method'  => 'POST',
+                        'content' => http_build_query($data),
+                    ),
+                );
+                $context  = stream_context_create($options);
+                $result = file_get_contents($url.$function, false, $context);
+                $fileInfos = json_decode($result);
+                $file_path = $fileInfos->result->file_path;
+                $url_download = 'https://api.telegram.org/file/bot'.$TOKEN.'/'.$file_path;
+                $dataImg = file_get_contents($url_download);
+
+                $filename = basename($file_path);
+
+                $filesystem->write($idMessaggio . '/' . $filename, $dataImg);
+
+                $attachments = new Attachment(array(
+                    'annotation_id' => $annotation->id,
+                    'source' => Source::TELEGRAM,
+                    'fileName' => $filename,
+                    'filePath' => $idMessaggio . '/' . $filename
+                ));
+                $attachments->setConnection($connection_name);
+                $attachments->save();
+
+            } //video
+
+        }
+
+
+
+        //AUDIO
+        if (isset($message->voice)) {
+            $testo = 'Voice';
+
+            $annotation = new Annotation(array(
+                'author' => $author,
+                'source' => Source::TELEGRAM,
+                'sourceId' => $idMessaggio,
+                'text' => $testo,
+                'textHtml' => $testo,
+                'hashtags' => array()
+            ));
+            $annotation->setConnection($connection_name);
+            $annotation->save();
+
+            foreach($id = $message->voice as $voice) {
+
+                $function='getFile';
+                $data = array( 'file_id' => $voice->file_id);
+                $options = array(
+                    'http' => array(
+                        'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                        'method'  => 'POST',
+                        'content' => http_build_query($data),
+                    ),
+                );
+                $context  = stream_context_create($options);
+                $result = file_get_contents($url.$function, false, $context);
+                $fileInfos = json_decode($result);
+                $file_path = $fileInfos->result->file_path;
+                $url_download = 'https://api.telegram.org/file/bot'.$TOKEN.'/'.$file_path;
+                $dataImg = file_get_contents($url_download);
+
+                $filename = basename($file_path);
+
+                $filesystem->write($idMessaggio . '/' . $filename, $dataImg);
+
+                $attachments = new Attachment(array(
+                    'annotation_id' => $annotation->id,
+                    'source' => Source::TELEGRAM,
+                    'fileName' => $filename,
+                    'filePath' => $idMessaggio . '/' . $filename
+                ));
+                $attachments->setConnection($connection_name);
+                $attachments->save();
+
+            } //video
+
+        }
+
 
     }
 
 }
-if ($filesystem->has('last.tweet')) {
-    $filesystem->delete('last.tweet');
+
+if ($filesystem->has('last.telegram')) {
+    $filesystem->delete('last.telegram');
 }
-$filesystem->write('last.tweet', $lastId);
+$filesystem->write('last.telegram', $reqN);
+
+
+
+
+
+
+
+
+
+//        $imageCount = 0;
+//        if (isset ($elem_search->entities->media)) {
+//            foreach ($elem_search->entities->media as $media) {
+//                $imageCount++;
+//                $resources[] = $media->media_url;
+//                $dataImg = file_get_contents($media->media_url);
+//                $filename = basename($media->media_url); //"http://pbs.twimg.com/media/CPbPvS6UkAE7dYw.jpg",
+//
+//                if ('' == trim($filename)) {
+//                    $url = $media->expanded_url;
+//                    $parts = parse_url($url); // /Nonsprecare/status/645894353769111552/photo/1
+//                    echo $parts['path'];
+//                    $str = explode('/', $parts['path']);
+//                    $filename = $str[4];
+//                }
+//
+//                $filesystem->write($id_tweet . '/' . $filename, $dataImg);
+//
+//                $attachments = new Attachment(array(
+//                    'annotation_id' => $annotation->id,
+//                    'source' => Source::TWITTER,
+//                    'fileName' => $filename,
+//                    'filePath' => $id_tweet . '/' . $filename
+//                ));
+//                $attachments->setConnection($connection_name);
+//                $attachments->save();
+//            }
+//        }
+//
+//    }
+//
+//}
+
 

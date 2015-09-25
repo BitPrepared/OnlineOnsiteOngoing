@@ -26,7 +26,7 @@ var API_RES_IMGS = "/resources/";
 // L'Hash tag da cui vengono prese le verifiche su Twitter
 // Il contenuto di questa variabile vieme mostrato nelle istruzioni
 // sulla pubblicazione via twitter (nel modale dentro index.html)
-var TWITTER_TAG = "indaba";
+var TWITTER_HT = "indaba";
 
 // Lo stesso per il telefono e gli sms
-var PHONE_NUMBER = 1 408 555 5555;
+var PHONE_NUMBER = "1 408 555 5555";
