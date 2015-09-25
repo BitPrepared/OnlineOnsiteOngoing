@@ -8,13 +8,40 @@
 
 require '../vendor/autoload.php';
 
+date_default_timezone_set('Europe/Rome');
+
 $config = require('../config.php');
+
+require '../app/function.fatal.php';
+
+$streamToFile = new \Monolog\Handler\StreamHandler( $config['log']['filename'] );
+//@See https://github.com/Seldaek/monolog/blob/master/doc/01-usage.md
+// DEFAULT: "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+$output = "[%datetime%] [%level_name%] [%extra%] : %message% %context%\n";
+$formatter = new Monolog\Formatter\LineFormatter($output);
+$streamToFile->setFormatter($formatter);
+$streamToFile->pushProcessor(function ($record) use ($config) {
+    if ( $config['enviroment'] == 'development' ){
+        $record['extra']['connection'] = 'testing';
+    } else {
+        $record['extra']['connection'] = 'default';
+    }
+    return $record;
+});
+$handlers[] = $streamToFile;
+$logger_writer = new \Flynsarmy\SlimMonolog\Log\MonologWriter(array(
+    'handlers' => $handlers,
+    'processors' => array(
+        new Monolog\Processor\UidProcessor(),
+        new Monolog\Processor\WebProcessor($_SERVER),
+    )
+));
 
 $app = new \Slim\Slim(array(
     'mode' => $config['enviroment'],
-    'debug' => true,
     'log.level' => \Slim\Log::DEBUG,
     'log.enabled' => true,
+    'log.writer' => $logger_writer,
     'templates.path' => '../templates'
 ));
 
@@ -26,9 +53,52 @@ $corsOptions = array(
 );
 $app->add(new \CorsSlim\CorsSlim($corsOptions));
 
-$log = $app->getLog();
+$app->hook('slim.before.router', function () use ($app) {
+    $req = $app->request;
+    $allGetVars = $req->get();
+    $allPostVars = $req->post();
+    $allPutVars = $req->put();
+    
+    $vars = array_merge($allGetVars,$allPostVars);
+    $vars = array_merge($vars,$allPutVars);
 
-$view = $app->view();
+    $srcParam = json_encode($vars);
+
+    $srcUri = $req->getRootUri();
+    $srcUrl = $req->getResourceUri();
+    //$app->log->info(@Kint::dump( $srcUrl ));
+    $app->log->debug('REQUEST : '.var_export($_REQUEST,true));
+    // Sono stati messi nel log dal logger
+    // $app->log->debug('URI : '.$srcUri);
+    // $app->log->debug('URL : '.$srcUrl);
+    $app->log->debug('Params : '.$srcParam);
+    $req->isAjax() ? $app->log->debug('Ajax attivo') : $app->log->debug('Ajax non attivo');
+});
+
+$app->hook('slim.after.dispatch', function () use ($app) {
+    $status = $app->response->getStatus();
+    $app->log->debug('terminato con stato ['.$status.']');
+});
+
+
+// $log = $app->getLog();
+// $view = $app->view();
+
+$app->configureMode('development', function() use ($app,$config) {
+    $app->config(array(
+        'debug' => true
+    ));
+    $connection_name = 'testing';
+    include '../app/app.php';
+});
+
+$app->configureMode('production', function() use ($app,$config) {
+    $app->config(array(
+        'debug' => false
+    ));
+    $connection_name = 'default';
+    include '../app/app.php';
+});
 
 $app->get('/', function () use ($app,$config)  {
     if ( $config['maintenance'] ) {
@@ -43,79 +113,13 @@ $app->get('/setup', function() use ($app,$config) {
     setup($config);
 });
 
-$app->configureMode('development', function() use ($app,$config) {
-    $app->get('/info', function () use ($app)  {
-        $app->render('info.php', array());
-    });
-    $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
-        $app->response->headers->set('Content-Type', 'application/json');
-        include '../app/functions.feed.php';
-        echo feed('testing',$startFrom);
-    });
-    $app->get('/history/:startFrom', function($startFrom) use ($app,$config) {
-        $app->response->headers->set('Content-Type', 'application/json');
-        include '../app/functions.feed.php';
-        echo feedhistory('testing',$startFrom);
-    });
-    $app->get('/resources/:id(/:maxWidth)', function($id,$maxWidth = 0) use ($app,$config) {
-        include '../app/functions.image.php';
-        $fp = getResources($config['uploads_dir'],$id,$maxWidth,'testing');
-        if (!$fp) {
-            $app->notFound();
-        }
-        $app->response->headers->set('Content-Type', $fp['mime']);
-        $app->response->setBody($fp['data']);
-    });
-    $app->get('/annotation/new', function() use ($app,$config) {
-        include '../app/functions.web.php';
-        $app->render('annotation/form.php', array());
-    });
-    $app->post('/annotation/new', function() use ($app,$config) {
-        include '../app/functions.web.php';
-        $req = $app->request;
-        insertAnnotation($req,'testing');
-        $app->render('annotation/ok.php', array());
-    });
-});
-
-$app->configureMode('production', function() use ($app,$config) {
-    $app->get('/feed(/:startFrom)', function($startFrom = 0) use ($app,$config) {
-        $app->response->headers->set('Content-Type', 'application/json');
-        include '../app/functions.feed.php';
-        echo feed('default',$startFrom);
-    });
-    $app->get('/history/:startFrom', function($startFrom) use ($app,$config) {
-        $app->response->headers->set('Content-Type', 'application/json');
-        include '../app/functions.feed.php';
-        echo feedhistory('default',$startFrom);
-    });
-    $app->get('/resources/:id(/:maxWidth)', function($id,$maxWidth = 0) use ($app,$config) {
-        include '../app/functions.image.php';
-        $fp = getResources($config['uploads_dir'],$id,$maxWidth,'default');
-        if (!$fp) {
-            $app->notFound();
-        }
-        $app->response->headers->set('Content-Type', $fp['mime']);
-        $app->response->setBody($fp['data']);
-    });
-    $app->get('/annotation/new', function() use ($app,$config) {
-        include '../app/functions.web.php';
-        $app->render('annotation/form.php', array());
-    });
-    $app->post('/annotation/new', function() use ($app,$config) {
-        include '../app/functions.web.php';
-        $req = $app->request;
-        insertAnnotation($req,'default');
-        $app->render('annotation/ok.php', array());
-    });
-});
-
 $app->notFound(function () use ($app) {
     $app->render('404.html');
 });
 
 $app->error(function (\Exception $e) use ($app) {
-	//FIXME: scrivo l'errore 
+    $app->log->error($e->getFile().' on '.$e->getLine().' '.' because : '.$e->getMessage());
+    $app->response->headers->set('Content-Type', 'text/html');
     $app->render('500.html');
 });
 

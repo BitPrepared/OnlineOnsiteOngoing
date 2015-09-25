@@ -24,9 +24,6 @@ function getResources($uploads_dir,$id,$maxWidth, $connection = 'default'){
         $attachment = $attachments[0];
 
         switch($attachment->source){
-            case Source::SMS:
-                $adapter = new Local($uploads_dir . '/sms/');
-                break;
             case Source::EMAIL:
                 $adapter = new Local($uploads_dir . '/email/');
                 break;
@@ -37,6 +34,7 @@ function getResources($uploads_dir,$id,$maxWidth, $connection = 'default'){
                 $adapter = new Local($uploads_dir . '/telegram/');
                 break;
             default:
+                break;
         }
 
         $filesystem = new Filesystem($adapter);
