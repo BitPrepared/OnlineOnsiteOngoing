@@ -86,8 +86,9 @@ foreach ( $obj_telegram->result as $message_telegram) {
             $annotation->setConnection($connection_name);
             $annotation->save();
 
+            //primo carattere @IndabaBot
             if ( strpos($testo,'@IndabaBot') == 0 ){
-                $testoDaParsare = str_replace('@IndabaBot','',$testo);
+                $testoDaParsare = mb_substr($testo, 11, strlen($testo)-11, 'utf-8');
                 $result = Parser::parse($testoDaParsare);
             } else {
                 $result = Parser::parse($testo);
