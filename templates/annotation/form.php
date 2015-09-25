@@ -34,7 +34,7 @@
 </head>
 <body>
 <div id="content">
-    <nav class="navbar navbar-inverse navbar-fixed-top affix">
+    <nav class="navbar navbar-default navbar-fixed-top affix">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
