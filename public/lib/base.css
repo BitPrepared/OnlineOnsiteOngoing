@@ -111,7 +111,7 @@ body {
 }
 
 #content {
-	background: #888 url(../bg.jpg) no-repeat top left;
+	background: #c0e5ff url(../bg.jpg) no-repeat top left;
 	background-repeat: no-repeat;
 	min-height: 100%;
 	z-index: 20;

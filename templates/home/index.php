@@ -9,68 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="lib/base.css">
-
-    <style>
-        .affix {
-            top: 0;
-            width: 100%;
-        }
-        .affix + .container-fluid {
-            padding-top: 70px;
-        }
-
-        .img-attached {
-            width: 300px;
-        }
-
-        @font-face {
-            font-family: Humanist;
-            src: url('font/Humanist 521 Light BT.ttf');
-        }
-
-        @font-face {
-            font-family: Humanist-Bold;
-            src: url('font/Humanist 521 Bold Condensed BT.ttf');
-        }
-
-        #progress-load-contents{
-            position: absolute;
-            top: 80px;
-
-            left:10%;
-            right:10%;
-
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 600px;
-        }
-
-        body {
-            font-family : Humanist;
-        }
-
-        li > p {
-            font-size:35pt;
-        }
-
-        li {
-            margin-bottom: 50px;
-        }
-
-        .hashtag-container {
-            font-size: 18px;
-        }
-
-        .label {
-            font-size: 10pt;
-            margin: 5px;
-        }
-
-        nav {
-            font-family: Humanist-Bold;
-        }
-
-    </style>
+    <link rel="stylesheet" href="ooo-vis.css">
 
     <script type="text/javascript">
 
@@ -84,21 +23,7 @@
 
         var MIN_ID = 0;
 
-        function create_new_update( uobj ) {
-
-            var new_el = $('<li>');
-            new_el.addClass("list-group-item");
-
-            new_el.hide();
-
-            if(MAX_ID < uobj.id){
-                MAX_ID = uobj.id;
-            }
-
-            if(MIN_ID > uobj.id) {
-                MIN_ID = uobj.id;
-            }
-
+        function set_text (uobj, new_el) {
             if(uobj.text != ""){
                 var quote = $('<blockquote>');
 
@@ -137,6 +62,25 @@
                 }));
                 new_el.append(quote);
             }
+        }
+
+        function create_new_update( uobj ) {
+
+            var new_el = $('<li>', {
+                'class' : "list-group-item"
+            });
+
+            new_el.hide();
+
+            if(MAX_ID < uobj.id){
+                MAX_ID = uobj.id;
+            }
+
+            if(MIN_ID > uobj.id) {
+                MIN_ID = uobj.id;
+            }
+
+            set_text(uobj, new_el);
 
             /* ***  Per il momento l'HTML è disabilitato *** */
 
@@ -152,12 +96,10 @@
             var h;
             var hashtagsContainer = $("<p class=\"hashtag-container\">")
             for(h = 0; h < uobj.hashtags.length; h++){
-                new_ht = $('<span>');
-                new_ht.addClass("label");
-                new_ht.addClass("label-primary");
-                new_ht.text(uobj.hashtags[h]);
-
-                hashtagsContainer.append(new_ht);
+                hashtagsContainer.append($('<span>', {
+                    'class' : "label label-primary",
+                    'text' : uobj.hashtags[h]
+                }));
             }
             new_el.append(hashtagsContainer)
 
@@ -165,7 +107,7 @@
             for(h = 0; h < uobj.attachments.length; h++){
                 new_el.append($("<img>", {
                     "class" : "img-thumbnail img-responsive img-attached",
-                    "src" : uobj.attachments[h].fileName
+                    "src" : API_RES_IMGS + uobj.attachments[h].fileName
                 }));
             }
 
@@ -181,17 +123,15 @@
             if(where == 'pre'){
                 /* Carica i vecchi messaggi dell'infinite scrolling */
 
-                //var res = 'data.json';
-
                 // la risorsa è da configurare nel file config.js
                 var res = API_RES_PRE + last_id;
 
             } else {
                 /* Carica i nuovi messaggi in cima alla pagina */
 
-                //var res = 'data.json';
                 // la risorsa è da configurare nel file config.js
                 var res = API_RES_POST + last_id;
+
                 if(last_id != 0){
                     // var res = res + last_id;
                 }
@@ -208,7 +148,7 @@
                         $("#progress-load-contents").fadeOut("slow");
                     }
 
-                    var v = data.verifies;
+                    var v = data;
                     var i;
                     for( i = 0; i < v.length; i++){
 

@@ -98,6 +98,16 @@ $app->configureMode('production', function() use ($app,$config) {
         $app->response->headers->set('Content-Type', $fp['mime']);
         $app->response->setBody($fp['data']);
     });
+    $app->get('/annotation/new', function() use ($app,$config) {
+        include '../app/functions.web.php';
+        $app->render('annotation/form.php', array());
+    });
+    $app->post('/annotation/new', function() use ($app,$config) {
+        include '../app/functions.web.php';
+        $req = $app->request;
+        insertAnnotation($req,'default');
+        $app->render('annotation/ok.php', array());
+    });
 });
 
 $app->notFound(function () use ($app) {
