@@ -131,7 +131,7 @@
             for(h = 0; h < uobj.attachments.length; h++){
                 new_el.append($("<img>", {
                     "class" : "img-thumbnail img-responsive img-attached",
-                    "src" : API_RES_IMGS + uobj.attachments[h].id
+                    "src" : API_RES_IMGS + uobj.attachments[h].id + "/" + screen.width
                 }));
             }
 
@@ -248,7 +248,7 @@
     </div>
 </div>
 <div id="content">
-    <nav class="navbar navbar-inverse navbar-fixed-top affix">
+    <nav class="navbar navbar-default navbar-fixed-top affix">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
@@ -299,11 +299,13 @@
             </div>
             <div class="modal-body">
                 <h4>Ci sono molti modi per pubblicare la tua verifica:</h4>
-                <h4>via <b>sms</b> : invia un messaggio al numero <a id="phone-number" href="tel:14085555555">1 408 555 5555,</a></h4>
-                <h4>via <b>twitter</b> : pubblica un tweet usando inserendo la parola <a id="twitter-tag" href="">#indaba</a></h4>
-                <h4>via <b>mail</b> : <a href="mailto:dicolamia@indaba.it"> ... </a>,</h4>
-                <h4>via <b>telegram</b> : <a href="https://telegram.me/IndabaBot?start=web">Indaba Bot</a>,</h4>
-                <h4>dal vivo : puoi lasciare un messaggio al chiosco posizionato XYZ</h4>.
+                <ul>
+                    <li><h4><b>SMS</b> : invia un messaggio al numero <a id="phone-number" href="tel:14085555555">1 408 555 5555,</a></h4></li>
+                    <li><h4><b>Twitter</b> : pubblica un tweet usando inserendo la parola <a id="twitter-tag" href="">#indaba</a></h4></li>
+                    <li><h4><b>Mail</b> : <a href="mailto:dicolamia@indaba.it"> ... </a>,</h4></li>
+                    <li><h4><b>Telegram</b> : <a href="https://telegram.me/IndabaBot?start=web">Indaba Bot</a></h4></li>
+                    <li><h4><b>Chiosco</b> : puoi lasciare un messaggio al chiosco posizionato XYZ</h4></li>
+                </ul>
                 <script type="text/javascript">
                     $("#twitter-tag").attr('href', "http://twitter.com/hashtag/" + TWITTER_HT);
                     $("#twitter-tag").text(TWITTER_HT);
