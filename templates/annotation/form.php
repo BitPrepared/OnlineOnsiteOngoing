@@ -1,6 +1,6 @@
 <html>
     <head>
-    	<title>Indaba</title>
+    	<title>Indaba Verifica Web</title>
     	<style>
 
     		input[type=text], input[type=url], input[type=email], input[type=password], input[type=tel] {
@@ -34,24 +34,26 @@
     <body>
 
     <form action="/annotation/new" method="post" accept-charset="UTF-8" autocomplete="off">
-    	<label for="sezione">Sezione:</label> 
-    	<select name="sezione">
-		  <option value="A">A</option>
-		  <option value="B">B</option>
-		</select>
-		<br/>
-		<label for="valutazione">Evento</label>
-    	<select name="valutazione">
-		  <option value="1">1</option>
-		  <option value="2">2</option>
-		</select>
-		<br/>
+<!--    	<label for="sezione">Sezione:</label> -->
+<!--    	<select name="sezione">-->
+<!--		  <option value="A">A</option>-->
+<!--		  <option value="B">B</option>-->
+<!--		</select>-->
+<!--		<br/>-->
+<!--		<label for="evento">Evento</label>-->
+<!--    	<select name="evento">-->
+<!--		  <option value="1">1</option>-->
+<!--		  <option value="2">2</option>-->
+<!--		</select>-->
+<!--		<br/>-->
 		<label for="valutazione">Valutazione</label>
     	<input type="text" name="valutazione" autocorrect="off" autocapitalize="off" placeholder="A00+++" /> 
     	<br/>
 		<label for="commento">Commento</label>
 		<br/>
     	<textarea name="commento" rows="8"></textarea>
+        <br/>
+        <input type="submit" value="Invia"/>
     </form>
 
     </body>

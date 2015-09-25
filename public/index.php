@@ -70,6 +70,12 @@ $app->configureMode('development', function() use ($app,$config) {
         include '../app/functions.web.php';
         $app->render('annotation/form.php', array());
     });
+    $app->post('/annotation/new', function() use ($app,$config) {
+        include '../app/functions.web.php';
+        $req = $app->request;
+        insertAnnotation($req,'testing');
+        $app->render('annotation/ok.php', array());
+    });
 });
 
 $app->configureMode('production', function() use ($app,$config) {

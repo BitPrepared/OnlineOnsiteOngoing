@@ -16,12 +16,14 @@ class Source extends BasicEnum {
     const SMS = 2;
     const TWITTER = 3;
     const TELEGRAM = 4;
+    const WEB = 5;
 
     protected static $typeLabels = array(
         self::EMAIL => 'Email',
         self::SMS => 'SMS',
         self::TWITTER => 'Twitter',
-        self::TELEGRAM => 'Telegram'
+        self::TELEGRAM => 'Telegram',
+        self::WEB => 'Web'
     );
 
 }
