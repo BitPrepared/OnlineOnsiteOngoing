@@ -26,7 +26,20 @@ var API_RES_IMGS = "/resources/";
 // L'Hash tag da cui vengono prese le verifiche su Twitter
 // Il contenuto di questa variabile vieme mostrato nelle istruzioni
 // sulla pubblicazione via twitter (nel modale dentro index.html)
-var TWITTER_HT = "indaba";
+var TWITTER_HT = "";
 
 // Lo stesso per il telefono e gli sms
-var PHONE_NUMBER = "1 408 555 5555";
+var PHONE_NUMBER = "";
+
+// indirizzo email per mandare le verifiche
+var MAIL_ADDRESS = "";
+
+// il nome del bot di telegram a cui mandare le verifiche
+var TELEGRAM_BOT = "";
+
+// inserire la locaiton del chiosco, il testo previsto è:
+// "puoi lasciare un messaggio al chiosco" + POSTO_CHIOSCO
+// quindi assegnare a POSTO_CHIOSCO la descrizione di come
+// si può raggiungere il chiosco :)
+var POSTO_CHIOSCO = "";
+

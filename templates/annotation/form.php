@@ -88,19 +88,30 @@
                 <h3 class="modal-title">Istruzioni per inviare le verifiche</h3>
             </div>
             <div class="modal-body">
-                <h4>Ci sono molti modi per pubblicare la tua verifica:</h4>
+                <h4>Questo strumento raccoglie e accorpora le verifiche da fonti differenti per
+                    rendere più semplice a tutti inviare il proprio contributo.
+                    Per condividere il tuo pensiero puoi:</h4>
                 <ul>
-                    <li><h4><b>SMS</b> : invia un messaggio al numero <a id="phone-number" href="tel:14085555555">1 408 555 5555,</a></h4></li>
-                    <li><h4><b>Twitter</b> : pubblica un tweet usando inserendo la parola <a id="twitter-tag" href="">#indaba</a></h4></li>
-                    <li><h4><b>Mail</b> : <a href="mailto:dicolamia@indaba.it"> ... </a>,</h4></li>
-                    <li><h4><b>Telegram</b> : <a href="https://telegram.me/IndabaBot?start=web">Indaba Bot</a></h4></li>
-                    <li><h4><b>Chiosco</b> : puoi lasciare un messaggio al chiosco posizionato XYZ</h4></li>
+                    <li><h4>inviare un <b>SMS</b> al numero <a id="phone-number" href=""></a>,</h4></li>
+                    <li><h4>pubblicare un tweet su <b>Twitter</b> inserendo la parola <a id="twitter-tag" href="">#indaba</a>,</h4></li>
+                    <li><h4>inviare un<b>Mail</b> : <a id="email" href="mailto:"></a>,</h4></li>
+                    <li><h4>inviare un messaggio con <b>Telegram</b> a <a id="telegram" href="">Indaba Bot</a>,</h4></li>
+                    <li><h4><b>Chiosco</b> : puoi lasciare un messaggio al chiosco <span id="chiosco"></span>.</h4></li>
                 </ul>
                 <script type="text/javascript">
                     $("#twitter-tag").attr('href', "http://twitter.com/hashtag/" + TWITTER_HT);
                     $("#twitter-tag").text(TWITTER_HT);
+                    
                     $("#phone-number").text(PHONE_NUMBER);
                     $("#phone-number").attr("href","tel:" + PHONE_NUMBER);
+
+                    $("#email").text(MAIL_ADDRESS);
+                    $("#email").attr("href","mailto:" + MAIL_ADDRESS);
+
+                    $("#telegram").text(TELEGRAM_BOT);
+                    $("#telegram").attr("href","https://telegram.me/" + TELEGRAM_BOT + "?start=web");
+
+                    $("#chiosco").text(POSTO_CHIOSCO);
                 </script>
             </div>
             <div class="modal-footer">
