@@ -43,7 +43,6 @@
         }
 
         var MAX_ID = 0;
-
         var MIN_ID = 0;
 
         function set_text (uobj, new_el) {
@@ -95,12 +94,14 @@
 
             new_el.hide();
 
-            if(MAX_ID < uobj.id){
-                MAX_ID = uobj.id;
+            var intId = parseInt(uobj.id);
+            if(MAX_ID < intId){
+                if (MAX_ID == 0 && MIN_ID == 0)
+                    MIN_ID = intId;
+                MAX_ID = intId;
             }
-
-            if(MIN_ID > uobj.id) {
-                MIN_ID = uobj.id;
+            if(MIN_ID > intId) {
+                MIN_ID = intId;
             }
 
             set_text(uobj, new_el);
@@ -349,7 +350,7 @@
 
     var exampleLoadingFunction = function() {
         return new Promise( function( resolve, reject ) {
-            load_new_updates(MAX_ID);
+            load_new_updates(MAX_ID, "post");
             if (true) {
                 show_success_message();
                 resolve();
