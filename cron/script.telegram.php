@@ -87,11 +87,11 @@ foreach ( $obj_telegram->result as $message_telegram) {
             $annotation->save();
 
             //primo carattere @IndabaBot
-            if ( strpos($testo,'@IndabaBot') == 0 ){
+            if ( strpos($testo,'@IndabaBot') === false ){
+                $result = Parser::parse($testo);
+            } else {
                 $testoDaParsare = mb_substr($testo, 11, strlen($testo)-11, 'utf-8');
                 $result = Parser::parse($testoDaParsare);
-            } else {
-                $result = Parser::parse($testo);
             }
 
             if ($result != false) {
@@ -268,46 +268,4 @@ if ($filesystem->has('last.telegram')) {
     $filesystem->delete('last.telegram');
 }
 $filesystem->write('last.telegram', $reqN);
-
-
-
-
-
-
-
-
-
-//        $imageCount = 0;
-//        if (isset ($elem_search->entities->media)) {
-//            foreach ($elem_search->entities->media as $media) {
-//                $imageCount++;
-//                $resources[] = $media->media_url;
-//                $dataImg = file_get_contents($media->media_url);
-//                $filename = basename($media->media_url); //"http://pbs.twimg.com/media/CPbPvS6UkAE7dYw.jpg",
-//
-//                if ('' == trim($filename)) {
-//                    $url = $media->expanded_url;
-//                    $parts = parse_url($url); // /Nonsprecare/status/645894353769111552/photo/1
-//                    echo $parts['path'];
-//                    $str = explode('/', $parts['path']);
-//                    $filename = $str[4];
-//                }
-//
-//                $filesystem->write($id_tweet . '/' . $filename, $dataImg);
-//
-//                $attachments = new Attachment(array(
-//                    'annotation_id' => $annotation->id,
-//                    'source' => Source::TWITTER,
-//                    'fileName' => $filename,
-//                    'filePath' => $id_tweet . '/' . $filename
-//                ));
-//                $attachments->setConnection($connection_name);
-//                $attachments->save();
-//            }
-//        }
-//
-//    }
-//
-//}
-
 
