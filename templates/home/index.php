@@ -178,23 +178,29 @@
                     if (where == 'pre'){
                         for( i = 0; i < v.length; i++){
                             var el = create_new_update(v[i]);
-                            if (v[i].id <= MIN_ID )
+                            if (v[i].id <= MIN_ID ){
                                 $('#verifies').append(el);
+                                el.fadeIn({
+                                    queue : true,
+                                    duration : "slow"
+                                });
+                            }
                         }
                     } else {
                         for( i = v.length -1; i >= 0 ; i--){
                             var el = create_new_update(v[i]);
 
-                            if (v[i].id >= MAX_ID)
+                            if (v[i].id >= MAX_ID){
                                 $('#verifies').prepend(el);
+                                el.fadeIn({
+                                    queue : true,
+                                    duration : "slow"
+                                });   
+                            }
                         }
                     }
 
                     $("#stub-info-element").remove();
-                    el.fadeIn({
-                        queue : true,
-                        duration : "slow"
-                    });
                 }
             });
         }
