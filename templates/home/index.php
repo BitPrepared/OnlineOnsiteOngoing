@@ -94,12 +94,13 @@
             /* Inseriamo gli hashtags */
             var new_ht;
             var h;
-            var hashtagsContainer = $("<p class=\"hashtag-container\">")
+            var hashtagsContainer = $("<p style=\"word-break: break-all\" class=\"hashtag-container\">")
             for(h = 0; h < uobj.hashtags.length; h++){
                 hashtagsContainer.append($('<span>', {
                     'class' : "label label-primary",
                     'text' : uobj.hashtags[h]
                 }));
+                hashtagsContainer.append(" ");
             }
             new_el.append(hashtagsContainer)
 
@@ -107,7 +108,7 @@
             for(h = 0; h < uobj.attachments.length; h++){
                 new_el.append($("<img>", {
                     "class" : "img-thumbnail img-responsive img-attached",
-                    "src" : API_RES_IMGS + uobj.attachments[h].fileName
+                    "src" : API_RES_IMGS + uobj.attachments[h].id
                 }));
             }
 
@@ -227,8 +228,19 @@
                     <img src="logo.png" height="100%" align="left"/><strong>AGESCI Indaba 2015</strong>
                 </a>
             </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal-howto">Come pubblicare</a></li>
+                    <li><a href="form.htm" >Pubblica opinione</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
+
+    <!-- Trigger the modal with a button -->
+
+
 
     <div class="container-fluid" id="content-container">
         <div class="progress progress-striped active" style="display:none" id="progress-load-contents">
@@ -244,6 +256,38 @@
                 </blockquote>
             </li>
         </ul>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="modal-howto" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Istruzioni per inviare le verifiche</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Ci sono molti modi per pubblicare la tua verifica:</h4>
+                <h4>via <b>sms</b> : invia un messaggio al numero <a id="phone-number" href="tel:14085555555">1 408 555 5555,</a></h4>
+                <h4>via <b>twitter</b> : pubblica un tweet usando inserendo la parola <a id="twitter-tag" href="">#indaba</a></h4>
+                <h4>via <b>mail</b> : <a href="mailto:dicolamia@indaba.it"> ... </a>,</h4>
+                <h4>via <b>telegram</b> : <a href="https://telegram.me/IndabaBot?start=web">Indaba Bot</a>,</h4>
+                <h4>dal vivo : puoi lasciare un messaggio al chiosco posizionato XYZ</h4>.
+                <script type="text/javascript">
+                    $("#twitter-tag").attr('href', "http://twitter.com/hashtag/" + TWITTER_HT);
+                    $("#twitter-tag").text(TWITTER_HT);
+                    $("#phone-number").text(PHONE_NUMBER);
+                    $("#phone-number").attr("href","tel:" + PHONE_NUMBER);
+                </script>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok, grazie</button>
+            </div>
+        </div>
+
     </div>
 </div>
 <script src="lib/hammer.2.0.4.js"></script>

@@ -10,6 +10,7 @@ return [
     'enviroment' => 'development',
     'maintenance' => false,
     'uploads_dir' => __DIR__ . '/uploads',
+    'telegram_token' => '',
     'twitter_consumer_key 		' => '',
     'twitter_consumer_secret 	' => '',
     'twitter_access_token 		' => '',

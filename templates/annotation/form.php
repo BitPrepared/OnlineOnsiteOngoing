@@ -1,60 +1,92 @@
-<html>
-    <head>
-    	<title>Indaba Verifica Web</title>
-    	<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Verifica Indaba 2015</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="config.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="lib/base.css">
+    <link rel="stylesheet" href="ooo-vis.css">
+</head>
+<body>
+<div id="content">
+    <nav class="navbar navbar-inverse navbar-fixed-top affix">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <img src="logo.png" height="100%" align="left"/><strong>AGESCI Indaba 2015</strong>
+                </a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="index.htm">Home</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal-howto">Come pubblicare</a></li>
+                    <li class="active"><a href="form.htm">Pubblica opinione</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    		input[type=text], input[type=url], input[type=email], input[type=password], input[type=tel] {
-			  -webkit-appearance: none; -moz-appearance: none;
-			  display: block;
-			  margin: 0;
-			  width: 100%; height: 40px;
-			  line-height: 40px; font-size: 17px;
-			  border: 1px solid #bbb;
-			}
+    <div class="container-fluid" id="content-container">
+        <ul id="verifies" class="list-group">
+            <li class="list-group-item update" id="stub-info-element">
+                <blockquote>
+                    <h2>Invia la tua verifica!</h2>
+                    <p>Puoi utilizzare questo form per inserire la tua verifica personale.</p>
+                    <footer>BitPrepared</footer>
+                </blockquote>
+                <form action="/annotation/new" method="post" accept-charset="UTF-8" autocomplete="off">
 
-			textarea {
-				width: 100%;
-			}
+                    <div class="form-group">
+                        <label for="usr">Valutazione:</label>
+                        <input name="valutazione" type="text" class="form-control" id="usr" placeholder="A00+++">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Commento:</label>
+                        <textarea name="commento" class="form-control" rows="5" id="comment"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default">Invia la verifica</button>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="modal-howto" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-			button[type=submit] {
-			 -webkit-appearance: none; -moz-appearance: none;
-			 display: block;
-			 margin: 1.5em 0;
-			 font-size: 1em; line-height: 2.5em;
-			 color: #333;
-			 font-weight: bold;
-			 height: 2.5em; width: 100%;
-			 background: #fdfdfd; background: -moz-linear-gradient(top, #fdfdfd 0%, #bebebe 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#bebebe)); background: -webkit-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: -o-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: -ms-linear-gradient(top, #fdfdfd 0%,#bebebe 100%); background: linear-gradient(to bottom, #fdfdfd 0%,#bebebe 100%);
-			 border: 1px solid #bbb;
-			 -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;
-			}
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Istruzioni per inviare le verifiche</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Ci sono molti modi per pubblicare la tua verifica:</h4>
+                <ul>
+                    <li><h4><b>SMS</b> : invia un messaggio al numero <a id="phone-number" href="tel:14085555555">1 408 555 5555,</a></h4></li>
+                    <li><h4><b>Twitter</b> : pubblica un tweet usando inserendo la parola <a id="twitter-tag" href="">#indaba</a></h4></li>
+                    <li><h4><b>Mail</b> : <a href="mailto:dicolamia@indaba.it"> ... </a>,</h4></li>
+                    <li><h4><b>Telegram</b> : <a href="https://telegram.me/IndabaBot?start=web">Indaba Bot</a></h4></li>
+                    <li><h4><b>Chiosco</b> : puoi lasciare un messaggio al chiosco posizionato XYZ</h4></li>
+                </ul>
+                <script type="text/javascript">
+                    $("#twitter-tag").attr('href', "http://twitter.com/hashtag/" + TWITTER_HT);
+                    $("#twitter-tag").text(TWITTER_HT);
+                    $("#phone-number").text(PHONE_NUMBER);
+                    $("#phone-number").attr("href","tel:" + PHONE_NUMBER);
+                </script>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok, grazie</button>
+            </div>
+        </div>
 
-    	</style>
-    </head>
-    <body>
-
-    <form action="/annotation/new" method="post" accept-charset="UTF-8" autocomplete="off">
-<!--    	<label for="sezione">Sezione:</label> -->
-<!--    	<select name="sezione">-->
-<!--		  <option value="A">A</option>-->
-<!--		  <option value="B">B</option>-->
-<!--		</select>-->
-<!--		<br/>-->
-<!--		<label for="evento">Evento</label>-->
-<!--    	<select name="evento">-->
-<!--		  <option value="1">1</option>-->
-<!--		  <option value="2">2</option>-->
-<!--		</select>-->
-<!--		<br/>-->
-		<label for="valutazione">Valutazione</label>
-    	<input type="text" name="valutazione" autocorrect="off" autocapitalize="off" placeholder="A00+++" /> 
-    	<br/>
-		<label for="commento">Commento</label>
-		<br/>
-    	<textarea name="commento" rows="8"></textarea>
-        <br/>
-        <input type="submit" value="Invia"/>
-    </form>
-
-    </body>
+    </div>
+</div>
+</body>
 </html>

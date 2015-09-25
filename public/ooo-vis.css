@@ -1,60 +1,62 @@
-
 .affix {
-		top: 0;
-	    width: 100%;
-	}
-	.affix + .container-fluid {
-	    padding-top: 70px;
-	}
-	
-	.img-attached {
-		width: 300px;
-	}
+	top: 0;
+    width: 100%;
+}
+.affix + .container-fluid {
+    padding-top: 70px;
+}
 
-	@font-face {
-    font-family: Humanist;
-    src: url('font/Humanist 521 Light BT.ttf');
+.img-attached {
+	width: 300px;
+}
+
+@font-face {
+font-family: Humanist;
+src: url('font/Humanist 521 Light BT.ttf');
+}
+
+@font-face {
+font-family: Humanist-Bold;
+src: url('font/Humanist 521 Bold Condensed BT.ttf');
+}
+
+#progress-load-contents{
+ 	position: absolute;
+top: 80px;
+
+left:10%;
+right:10%;
+
+margin-left: auto;
+margin-right: auto;
+max-width: 600px;
+}
+
+body {
+	font-family : Humanist;
+}
+
+li > p {
+	font-size:35pt;
+}
+
+
+.hashtag-container {
+	font-size: 18px;
+}
+
+.label {
+	font-size: 10pt;
+	margin: 5px;
+}
+
+nav {
+	font-family: Humanist-Bold;
+}
+
+
+@media all and (max-width: 768px) {
+	.affix + .container-fluid {
+    	padding-top: 170px;
 	}
-	
-	@font-face {
-    font-family: Humanist-Bold;
-    src: url('font/Humanist 521 Bold Condensed BT.ttf');
-	}
-	
-	#progress-load-contents{
- 		position: absolute;
-    top: 80px;
-    
-    left:10%;
-    right:10%;
-    
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 600px;
-	}
-	
-	body {
-		font-family : Humanist;
-	}
-	
-	li > p {
-		font-size:35pt;
-	}
-	
-	li {
-		margin-bottom: 50px;
-	}
-	
-	.hashtag-container {
-		font-size: 18px;
-	}
-	
-	.label {
-		font-size: 10pt;
-		margin: 5px;
-	}
-	
-	nav {
-		font-family: Humanist-Bold;
-	}
-	
+}

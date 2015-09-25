@@ -17,3 +17,16 @@ var API_RES_POST = '/feed/';
 // (l'ID verrà messo se necessario direttamente
 // a programma)
 var API_RES_PRE = '/history/';
+
+// L'API endpoint per ottenere le immagini allegate alle verfifiche.
+// Viene utilizzata (nel file index.htm) così:
+// API_RES_IMGS + id + "/" + maxWidth
+var API_RES_IMGS = "/resources/";
+
+// L'Hash tag da cui vengono prese le verifiche su Twitter
+// Il contenuto di questa variabile vieme mostrato nelle istruzioni
+// sulla pubblicazione via twitter (nel modale dentro index.html)
+var TWITTER_TAG = "indaba";
+
+// Lo stesso per il telefono e gli sms
+var PHONE_NUMBER = 1 408 555 5555;
