@@ -230,7 +230,7 @@
             // load_new_updates(0);
             $(window).scroll(function() {
                 if($(window).scrollTop() + $(window).height() == $(document).height()) {
-                    load_new_updates(0, 'pre');
+                    load_new_updates(MIN_ID, "pre");
                 }
             });
             setInterval(function(){
