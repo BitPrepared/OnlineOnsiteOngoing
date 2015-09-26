@@ -40,33 +40,37 @@ function getResources($uploads_dir,$id,$maxWidth, $connection = 'default'){
         $filesystem = new Filesystem($adapter);
         $filesystem->addPlugin(new ListWith);
 
-        $data = $filesystem->read($attachment->filePath);
-        $fp['data'] = $data;
-        $fp['mime'] = $filesystem->getMimetype($attachment->filePath);
+        if ($filesystem->has($attachment->filePath)) {
 
-        if ( $maxWidth > 0 ) {
+            $data = $filesystem->read($attachment->filePath);
+            $fp['data'] = $data;
+            $fp['mime'] = $filesystem->getMimetype($attachment->filePath);
 
-            $imagine = new \Imagine\Gd\Imagine();
+            if ( $maxWidth > 0 ) {
 
-            $image = $imagine->load($data);
+                $imagine = new \Imagine\Gd\Imagine();
 
-            $size = $image->getSize();
+                $image = $imagine->load($data);
 
-            if ( $size->getWidth() > $maxWidth ) {
+                $size = $image->getSize();
 
-                // AWIDTH : AHEIGHT = NWIDTH : NHEIGHT
-                // HHEIGHT = AHEIGHT * NWIDTH / AWIDTH
+                if ( $size->getWidth() > $maxWidth ) {
 
-                $height = $size->getHeight() * $maxWidth / $size->getWidth();
-                $width = $maxWidth;
+                    // AWIDTH : AHEIGHT = NWIDTH : NHEIGHT
+                    // HHEIGHT = AHEIGHT * NWIDTH / AWIDTH
 
-                $fp['data'] = $image->resize(new Box($width,$height), ImageInterface::FILTER_UNDEFINED)->show('png'); //FILTER_QUADRATIC
+                    $height = $size->getHeight() * $maxWidth / $size->getWidth();
+                    $width = $maxWidth;
+
+                    $fp['data'] = $image->resize(new Box($width,$height), ImageInterface::FILTER_UNDEFINED)->show('png'); //FILTER_QUADRATIC
+
+                }
 
             }
 
-        }
+            return $fp;
 
-        return $fp;
+        }
 
     }
 
