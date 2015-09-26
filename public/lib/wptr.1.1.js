@@ -64,7 +64,7 @@ var WebPullToRefresh = (function () {
 
 		var h = new Hammer( options.contentEl );
 
-		h.get( 'pan' ).set( { direction: Hammer.DIRECTION_VERTICAL } );
+		//h.get( 'pan' ).set( { direction: Hammer.DIRECTION_VERTICAL } );
 
 		h.on( 'panstart', _panStart );
 		h.on( 'pandown', _panDown );

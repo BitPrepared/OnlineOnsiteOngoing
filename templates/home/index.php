@@ -226,8 +226,11 @@
 
 
         $(document).ready(function() {
-            // $("#progress-load-contents").fadeIn();
-            // load_new_updates(0);
+            $("#progress-load-contents").fadeIn();
+            load_new_updates(MAX_ID, "post");
+	    $("#progress-load-contents").fadeOut("slow");
+
+
             $(window).scroll(function() {
                 if($(window).scrollTop() + $(window).height() == $(document).height()) {
                     load_new_updates(MIN_ID, "pre");

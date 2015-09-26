@@ -59,4 +59,9 @@ nav {
 	.affix + .container-fluid {
     	padding-top: 170px;
 	}
+
+	#progress-load-contents {
+	top: 180px;
+	}
+
 }
