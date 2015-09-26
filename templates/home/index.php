@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/lib/base.css">
+    <!-- <link rel="stylesheet" href="/lib/base.css"> -->
     <link rel="stylesheet" href="/ooo-vis.css">
 
     <script src="/config.js"></script>
@@ -246,18 +246,6 @@
 
     </script>
 </head>
-<body>
-<div id="ptr">
-    <!-- Pull down arrow indicator -->
-    <span class="genericon genericon-next"></span>
-
-    <!-- CSS-based loading indicator -->
-    <div class="loading">
-        <span id="l1"></span>
-        <span id="l2"></span>
-        <span id="l3"></span>
-    </div>
-</div>
 <div id="content">
     <nav class="navbar navbar-default navbar-fixed-top affix">
         <div class="container-fluid">
@@ -345,7 +333,7 @@
 <script src="lib/hammer.2.0.4.js"></script>
 <script src="lib/wptr.1.1.js"></script>
 
-<script>
+<!-- <script>
     window.onload = function() {
         WebPullToRefresh.init( {
             loadingFunction: exampleLoadingFunction
@@ -364,6 +352,6 @@
 
         });
     };
-</script>
+</script>-->
 </body>
 </html>

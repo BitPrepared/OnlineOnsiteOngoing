@@ -1,3 +1,26 @@
+html, body {
+        height: 100%;
+}
+
+body {
+        background: #333;
+        margin: 0;
+}
+
+#content-container {
+        max-width: 600px; */
+}
+
+#content {
+        background: #c0e5ff url(../bg.jpg) no-repeat top left;
+        background-repeat: no-repeat;
+	height: 100%;
+        padding: 50px 20px;
+        text-align: left;
+        color: #555;
+}
+
+
 .affix {
 	top: 0;
     width: 100%;
