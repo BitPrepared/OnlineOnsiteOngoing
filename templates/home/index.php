@@ -179,7 +179,7 @@
                     if (where == 'pre'){
                         for( i = v.length -1; i >= 0 ; i--){
                             var el = create_new_update(v[i]);
-                            if (v[i].id <= MIN_ID ){
+                            if (parseInt(v[i].id) <= MIN_ID ){
                                 $('#verifies').append(el);
                                 el.fadeIn({
                                     queue : true,
@@ -191,7 +191,7 @@
                         for( i = v.length -1; i >= 0 ; i--){
                             var el = create_new_update(v[i]);
 
-                            if (v[i].id >= MAX_ID){
+                            if (parseInt(v[i].id) >= MAX_ID){
                                 $('#verifies').prepend(el);
                                 el.fadeIn({
                                     queue : true,
