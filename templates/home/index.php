@@ -177,7 +177,7 @@
                     var i;
 
                     if (where == 'pre'){
-                        for( i = 0; i < v.length; i++){
+                        for( i = v.length -1; i >= 0 ; i--){
                             var el = create_new_update(v[i]);
                             if (v[i].id <= MIN_ID ){
                                 $('#verifies').append(el);
