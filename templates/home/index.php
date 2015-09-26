@@ -76,7 +76,7 @@
                     }));
                 }
 
-                var cd = new Date(uobj.created);
+                var cd = new Date(uobj.created.replace(/-/g, "/"));
 
                 quote.append($("<footer>", {
                     text :
