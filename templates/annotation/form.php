@@ -66,6 +66,7 @@
                         <label for="usr">Valutazione:</label>
                         <input name="valutazione" type="text" class="form-control" id="usr" placeholder="A00+++">
                     </div>
+                    <button class="btn btn-info" data-toggle="modal" data-target="#modal-help-verify">Dettaglio codici di Valutazione</button>
                     <div class="form-group">
                         <label for="comment">Commento:</label>
                         <textarea name="commento" class="form-control" rows="5" id="comment"></textarea>
@@ -101,7 +102,7 @@
                 <script type="text/javascript">
                     $("#twitter-tag").attr('href', "http://twitter.com/hashtag/" + TWITTER_HT);
                     $("#twitter-tag").text(TWITTER_HT);
-                    
+
                     $("#phone-number").text(PHONE_NUMBER);
                     $("#phone-number").attr("href","tel:" + PHONE_NUMBER);
 
@@ -116,6 +117,40 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Ok, grazie</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="modal-help-verify" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Come comporre il codice di valutazione</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Il codice di <b>Valutazione</b> deve essere composto seguendo il formato seguente:</h4>
+                <ul>
+                    <li><h4>Sab. Mattina (Laboratori): <b>A 01 [+/-] [....]</b></h4></li>
+                    <li><h4>Sab. Pomeriggio (G. di lavoro):
+                        <ul>
+                            <li>L/C: <b>B 01 [+/-] [....]</b></li>
+                            <li>E/G: <b>B 02 [+/-] [....]</b></li>
+                            <li>R/S: <b>B 03 [+/-] [....]</b></li>
+                            <li>Fo.Ca.: <b>B 04 [+/-] [....]</b></li>
+                            <li>Territorio: <b>B 05 [+/-] [....]</b></li>
+                            <li>Scuola: <b>B 06 [+/-] [....]</b></li>
+                            <li>Percorso A. Generale: <b>B 07 [+/-] [....]</b></li>
+                        </ul>
+                    </h4></li>
+                    <li><h4>Dom. Mattina (T. Rotonda): <b>C 01 [+/-] [....]</b></h4></li>
+                    <li><h4>Complessivo evento: <b>Z 01 [+/-] [....]</b></h4></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok, capito</button>
             </div>
         </div>
 
