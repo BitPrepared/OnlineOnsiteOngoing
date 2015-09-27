@@ -76,7 +76,7 @@
                     }));
                 }
 
-                var cd = new Date(uobj.created.replace(/-/g, "/"));
+                var cd = new Date(uobj.created); //.replace(/-/g, "/")); <- Invalid Date...
 
                 quote.append($("<footer>", {
                     text :
@@ -178,9 +178,15 @@
                     var i;
 
                     if (where == 'pre'){
-                        for( i = v.length -1; i >= 0 ; i--){
+                        for( i = 0 ; i < v.length ; i++){
+			    
                             var el = create_new_update(v[i]);
-                            if (parseInt(v[i].id) <= MIN_ID ){
+
+			    // Non mostro una riga vuota
+			    //if(v[i].text == "")
+				//continue;
+
+                            if (v[i].text != "" && v[i].text != " " && parseInt(v[i].id) <= MIN_ID ){
                                 $('#verifies').append(el);
                                 el.fadeIn({
                                     queue : true,
@@ -192,7 +198,7 @@
                         for( i = v.length -1; i >= 0 ; i--){
                             var el = create_new_update(v[i]);
 
-                            if (parseInt(v[i].id) >= MAX_ID){
+                            if (v[i].text != "" && v[i].text != " " && parseInt(v[i].id) >= MAX_ID){
                                 $('#verifies').prepend(el);
                                 el.fadeIn({
                                     queue : true,
