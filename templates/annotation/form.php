@@ -48,7 +48,7 @@
                     <!-- <li class="active"><a href="form.htm">Pubblica opinione</a></li> -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" data-toggle="modal" data-target="#modal-bitprepared">Chi siamo...?</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal-bitprepared">Navigazione sostenibile</a></li>
                 </ul>
             </div>
         </div>
@@ -194,7 +194,7 @@
                 Se vuoi darci una mano, se vuoi conoscerci meglio, se vuoi vedere (e provare) i nostri software oppure se sei semplicemente incuriosito, visita il nostro <b>sito web</b>:
                 </h4>
                 <a href="http://www.bitprepared.it" target="_blank" type="button" class="btn btn-info btn-lg btn-block"><b>www.bitprepared.it</b></a>
-
+		<a href="mailto:info@bitprepared.it" type="button" class="btn btn-info btn-block btn-lg"><b>info@bitprepared.it</b></a>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
