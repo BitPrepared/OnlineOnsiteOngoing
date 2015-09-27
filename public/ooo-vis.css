@@ -78,11 +78,11 @@ nav {
 
 @media all and (max-width: 768px) {
 	.padded {
-    	padding-top: 70px;
+    	padding-top: 50px;
 	}
 
 	#progress-load-contents {
-	top: 180px;
+	top: 220px;
 	}
 
 }

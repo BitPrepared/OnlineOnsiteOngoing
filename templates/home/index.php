@@ -267,6 +267,9 @@
                     <li><a href="#" data-toggle="modal" data-target="#modal-howto">Come pubblicare</a></li>
                     <li><a href="annotation/new" >Pubblica opinione</a></li>
                 </ul>
+		<ul class="nav navbar-nav navbar-right">
+		    <li><a href="#" data-toggle="modal" data-target="#modal-bitprepared">Chi siamo...?</a></li>
+		</ul>
             </div>
         </div>
     </nav>
@@ -336,6 +339,51 @@
 
     </div>
 </div>
+
+<div id="modal-bitprepared" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Chi siamo noi...? BitPrepared!</h3>
+            </div>
+            <div class="modal-body">
+                <h4>Siamo una staff di capi scout con la passione per l'Informatica. Ogni anno facciamo del nostro meglio per orgnazizzare:
+		<ul>
+			<li>Il campetto di competenza E/G <b>Esploratori della Rete...BitPrepared!</b> presso la base di Costigiola.</li>
+			<li>Lo stage per capi <b>Digito Ergo Sum</b>, sempre presso la base di Costigiola.</li>
+		</ul></h4>
+
+		<h4>
+		Oltre a questo, offriamo il nostro tempo per fornire <b>supporto informatico</b> ai vari eventi dell'associazione (Route Nazionale, Indaba, etc.). </h4>
+
+		<h4>
+		Questo software di verifica, <b>OnlineOnsiteOngoing</b>, è stato scritto da noi capi utilizzando solamente <b>Software Libero</b> (attualmente si trova su 
+		<a href="https://github.com/BitPrepared/OnlineOnsiteOngoing" target="_blank">GitHub</a>). 
+		</h4>
+
+		<h4>
+		Utilizziamo il Software Libero in quanto crediamo che
+		rispetti i <b>valori</b> che in quanto capi scout siamo tenuti a testimoniare; lo insegniamo ai ragazzi del nostro campetto in quanto crediamo nella <b>valenza educativa</b>
+		di questa scelta.
+		</h4>
+
+		<h4>
+		Se vuoi darci una mano, se vuoi conoscerci meglio, se vuoi vedere (e provare) i nostri software oppure se sei semplicemente incuriosito, visita il nostro <b>sito web</b>:
+		</h4>
+		<a href="http://www.bitprepared.it" target="_blank" type="button" class="btn btn-info btn-lg btn-block"><b>www.bitprepared.it</b></a>
+		
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <script src="lib/hammer.2.0.4.js"></script>
 <script src="lib/wptr.1.1.js"></script>
 
