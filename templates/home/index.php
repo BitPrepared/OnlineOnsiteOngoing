@@ -247,7 +247,7 @@
     </script>
 </head>
 <div id="content">
-    <nav class="navbar navbar-default navbar-fixed-top affix">
+    <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
@@ -269,7 +269,7 @@
 
 
 
-    <div class="container-fluid" id="content-container">
+    <div class="container-fluid padded" id="content-container">
         <div class="progress progress-striped active" style="display:none" id="progress-load-contents">
             <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">Caricamento nuovi contenuti...
             </div>

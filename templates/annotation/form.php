@@ -28,13 +28,12 @@
     <script src="/config.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/lib/base.css">
     <link rel="stylesheet" href="/ooo-vis.css">
 
 </head>
 <body>
 <div id="content">
-    <nav class="navbar navbar-default navbar-fixed-top affix">
+    <nav class="navbar navbar-default ">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">

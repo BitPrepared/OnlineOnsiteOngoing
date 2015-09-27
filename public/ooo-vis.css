@@ -15,18 +15,16 @@ body {
         background: #c0e5ff url(../bg.jpg) no-repeat top left;
         background-repeat: no-repeat;
 	height: 100%;
-        padding: 50px 20px;
         text-align: left;
         color: #555;
 }
 
 
 .affix {
-	top: 0;
     width: 100%;
 }
-.affix + .container-fluid {
-    padding-top: 70px;
+.padded {
+    padding-top: 60px;
 }
 
 .img-attached {
@@ -79,8 +77,8 @@ nav {
 
 
 @media all and (max-width: 768px) {
-	.affix + .container-fluid {
-    	padding-top: 170px;
+	.padded {
+    	padding-top: 70px;
 	}
 
 	#progress-load-contents {
