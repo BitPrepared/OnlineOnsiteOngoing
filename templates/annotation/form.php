@@ -138,13 +138,13 @@
                     <li><h4>Sab. Mattina (Laboratori): <b>A 01 [+/-] [....]</b></h4></li>
                     <li><h4>Sab. Pomeriggio (G. di lavoro):
                         <ul>
-                            <li>L/C: <b>B 01 [+/-] [....]</b></li>
-                            <li>E/G: <b>B 02 [+/-] [....]</b></li>
-                            <li>R/S: <b>B 03 [+/-] [....]</b></li>
-                            <li>Fo.Ca.: <b>B 04 [+/-] [....]</b></li>
-                            <li>Territorio: <b>B 05 [+/-] [....]</b></li>
-                            <li>Scuola: <b>B 06 [+/-] [....]</b></li>
-                            <li>Percorso A. Generale: <b>B 07 [+/-] [....]</b></li>
+                            <li><b>B 01 [+/-] [....]</b> - L/C</li>
+                            <li><b>B 02 [+/-] [....]</b> - E/G</li>
+                            <li><b>B 03 [+/-] [....]</b> - R/S</li>
+                            <li><b>B 04 [+/-] [....]</b> - Fo.Ca.</li>
+                            <li><b>B 05 [+/-] [....]</b> - Territorio</li>
+                            <li><b>B 06 [+/-] [....]</b> - Scuola</li>
+                            <li><b>B 07 [+/-] [....]</b> - Percorso Assemblea Generale</li>
                         </ul>
                     </h4></li>
                     <li><h4>Dom. Mattina (T. Rotonda): <b>C 01 [+/-] [....]</b></h4></li>
