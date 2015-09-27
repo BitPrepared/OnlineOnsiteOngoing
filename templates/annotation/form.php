@@ -177,7 +177,7 @@
                 </ul></h4>
 
                 <h4>
-                Oltre a questo, offriamo il nostro tempo per fornire <b>supporto informatico</b> ai vari eventi dell'associazione (Route Nazionale, Indaba, etc.). </h4>
+                Oltre a questo, offriamo il nostro tempo per fornire <b>supporto informatico</b> ai vari eventi dell'associazione (Route Nazionale, Return to Dreamland, Indaba, etc.). </h4>
 
                 <h4>
                 Questo software di verifica, <b>OnlineOnsiteOngoing</b>, è stato scritto da noi capi utilizzando solamente <b>Software Libero</b> (attualmente si trova su 
