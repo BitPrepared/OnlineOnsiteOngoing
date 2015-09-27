@@ -57,7 +57,10 @@
             <li class="list-group-item update" id="stub-info-element">
                 <blockquote>
                     <h2>Invia la tua verifica!</h2>
-                    <p>Puoi utilizzare questo form per inserire la tua verifica personale.</p>
+                    <p>Puoi utilizzare questo form per inserire la tua verifica personale. La verifica è composta da una <b>Valutazione</b>,
+                        un codice che deve rispettare un formato preciso, e da un <b>Commento</b>, che ti permette di esprimere liberamente
+                        le tue opinioni.</p>
+                    <button class="btn btn-info" data-toggle="modal" data-target="#modal-help-verify">Dettaglio codici di Valutazione</button>
                     <footer>BitPrepared</footer>
                 </blockquote>
                 <form action="/annotation/new" method="post" accept-charset="UTF-8" autocomplete="off">
@@ -66,7 +69,6 @@
                         <label for="usr">Valutazione:</label>
                         <input name="valutazione" type="text" class="form-control" id="usr" placeholder="A00+++">
                     </div>
-                    <button class="btn btn-info" data-toggle="modal" data-target="#modal-help-verify">Dettaglio codici di Valutazione</button>
                     <div class="form-group">
                         <label for="comment">Commento:</label>
                         <textarea name="commento" class="form-control" rows="5" id="comment"></textarea>
