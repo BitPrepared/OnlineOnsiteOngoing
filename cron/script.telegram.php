@@ -56,11 +56,20 @@ try {
         $message = $message_telegram->message;
 
         $idMessaggio = $message->message_id;
+	if ( $idMessaggio <= $reqN ) {
+		continue;
+	}
+
+        $reqN = $idMessaggio;
+
         $nomeMittente = $message->from->first_name;
         $cognomeMittente = $message->from->last_name;
-        $userName = $message->from->username;
+	if ( isset($message->from->username) ){
+        	$userName = $message->from->username;
+	} else {
+		$userName = '';
+	}
         $author = $cognomeMittente.' '.$nomeMittente. ' @'.$userName;
-        $reqN = $idMessaggio;
 
         $ann = Annotation::on($connection_name)->where('sourceId', $idMessaggio)->get();
         if ($ann->count() == 0) {
@@ -68,6 +77,11 @@ try {
             //TESTO
             if (isset($message->text)) {
                 $testo = $message->text;
+
+		if ( $testo == '/start' ) {
+			continue;
+		} 
+
 
                 $annotation = new Annotation(array(
                     'author' => $author,

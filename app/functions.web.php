@@ -15,21 +15,10 @@ function insertAnnotation($req,$connection_name) {
 
     $commento = $req->post('commento');
 
-     $annotation = new Annotation(array(
-         'author' => $author,
-         'source' => Source::WEB,
-         'sourceId' => '',
-         'text' => $commento,
-         'textHtml' => $commento,
-         'hashtags' => array()
-     ));
-
-     $annotation->setConnection($connection_name);
-     $annotation->save();
+    $valutazione = $req->post('valutazione');
 
     $sezione = $req->post('sezione');
     $evento = $req->post('evento');
-    $valutazione = $req->post('valutazione');
 
     if ( null != $sezione && null != $evento && is_numeric($evento) ) {
         $eventoNum = intval($evento);
@@ -40,6 +29,18 @@ function insertAnnotation($req,$connection_name) {
             $valutazione = $sezione . $eventoNum . $valutazione;
         }
     }
+
+     $annotation = new Annotation(array(
+         'author' => $author,
+         'source' => Source::WEB,
+         'sourceId' => '',
+         'text' => $valutazione.' '.$commento,
+         'textHtml' => $valutazione.' '.$commento,
+         'hashtags' => array()
+     ));
+
+     $annotation->setConnection($connection_name);
+     $annotation->save();
 
     $result = Parser::parse($valutazione);
 
